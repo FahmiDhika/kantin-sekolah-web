@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Kantin Sekolah",
   description:
     "Sistem kantin sekolah untuk pemesanan makanan minuman dari masing masing stan",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
