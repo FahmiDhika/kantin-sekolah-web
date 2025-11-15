@@ -46,6 +46,21 @@ const LoginPage = () => {
 
         const role = data.data.role;
 
+        if (data.needProfile === true) {
+          if (role === "SISWA") {
+            return setTimeout(
+              () => router.replace("/siswa/create-profile"),
+              2000
+            );
+          }
+          if (role === "ADMIN_STAN") {
+            return setTimeout(
+              () => router.replace("/stan/create-profile"),
+              2000
+            );
+          }
+        }
+
         if (role === `ADMIN_STAN`) {
           setTimeout(() => router.replace(`/stan/dashboard`), 2000);
         } else if (role === `SISWA`) {
