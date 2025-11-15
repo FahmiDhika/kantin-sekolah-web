@@ -33,7 +33,12 @@ const FormSiswaPage = () => {
     const token = getCookie("token");
 
     if (!token) {
-      toast("Token tidak ditemukan, silakan login ulang!", { type: "error" });
+      toast("Token tidak ditemukan, silakan login ulang!", {
+        hideProgressBar: false,
+        containerId: `toastLogin`,
+        type: "warning",
+        autoClose: 2000,
+      });
       return;
     }
 
@@ -67,7 +72,7 @@ const FormSiswaPage = () => {
       toast(data.message, {
         hideProgressBar: false,
         containerId: `toastLogin`,
-        type: "error",
+        type: "success",
         autoClose: 2000,
       });
 
@@ -162,15 +167,16 @@ const FormSiswaPage = () => {
             </label>
 
             {previewFoto ? (
-              <Image
-                src={previewFoto}
-                alt="Preview Foto"
-                width={120}
-                height={120}
-                className="rounded-full object-cover border"
-              />
+              <div className="w-28 aspect-square border rounded-lg overflow-hidden relative">
+                <Image
+                  src={previewFoto}
+                  alt="Preview Foto"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             ) : (
-              <div className="w-28 h-28 rounded-full bg-gray-200 flex justify-center items-center text-sm text-gray-600">
+              <div className="w-28 aspect-square bg-gray-200 flex justify-center items-center text-sm text-gray-600 border rounded-lg">
                 No Image
               </div>
             )}
