@@ -7,12 +7,12 @@ import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import { BASE_API_URL } from "@/global";
 import axios from "axios";
-import { storeCookie } from "@/lib/client-cookie";
 import Link from "next/link";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [role, setRole] = useState<string>("SISWA");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -22,43 +22,22 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      setLoading(true); // ★ ACTIVE LOADING
+      setLoading(true);
 
-      const url = `${BASE_API_URL}/user/login`;
-      const payload = JSON.stringify({ username, password });
+      const url = `${BASE_API_URL}/user/register`;
+      const payload = JSON.stringify({ username, password, role });
 
       const { data } = await axios.post(url, payload, {
         headers: { "Content-Type": "application/json" },
       });
 
-      if (data.logged === true) {
-        toast(data.message, {
-          hideProgressBar: false,
-          containerId: `toastLogin`,
-          type: "success",
-          autoClose: 2000,
-        });
+      toast(data.message || "Registrasi berhasil!", {
+        containerId: "toastRegister",
+        type: "success",
+        autoClose: 2000,
+      });
 
-        storeCookie("token", data.token);
-        storeCookie("id", data.data.id);
-        storeCookie("username", data.data.username);
-        storeCookie("role", data.data.role);
-
-        const role = data.data.role;
-
-        if (role === `ADMIN_STAN`) {
-          setTimeout(() => router.replace(`/stan/dashboard`), 2000);
-        } else if (role === `SISWA`) {
-          setTimeout(() => router.replace(`/siswa/dashboard`), 2000);
-        }
-      } else {
-        toast(data.message, {
-          hideProgressBar: false,
-          containerId: `toastLogin`,
-          type: "warning",
-          autoClose: 2000,
-        });
-      }
+      setTimeout(() => router.push("/login"), 2000);
     } catch (error) {
       console.log(error);
       toast(`Terjadi sesuatu kesalahan`, {
@@ -77,7 +56,7 @@ const LoginPage = () => {
       className="min-w-screen min-h-dvh flex justify-center items-center px-4 bg-cover bg-center relative"
       style={{ backgroundImage: "url('/foto kantin.svg')" }}
     >
-      <ToastContainer containerId={"toastLogin"} />
+      <ToastContainer containerId={"toastRegister"} />
       <div className="absolute inset-0 bg-black/40"></div>
 
       <div className="relative z-10 w-full max-w-md bg-white shadow-lg border border-zinc-200 rounded-2xl p-8">
@@ -91,12 +70,12 @@ const LoginPage = () => {
           </h1>
 
           <p className="text-sm text-(--shade-gelap) opacity-80">
-            Silakan masuk untuk melanjutkan.
+            Daftar akun baru untuk melanjutkan.
           </p>
         </div>
 
         {/* FORM */}
-        <form className="flex flex-col gap-6 mb-12" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           {/* Username */}
           <div className="relative">
             <label className="absolute -top-3 left-3 px-1 text-md bg-white text-(--shade-gelap)">
@@ -104,10 +83,11 @@ const LoginPage = () => {
             </label>
             <input
               type="text"
-              placeholder="Masukkan username akun…"
+              placeholder="Masukkan username…"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="px-4 py-3 rounded-lg border border-zinc-300 focus:ring-2 focus:ring-(--highlight) outline-none w-full"
+              required
             />
           </div>
 
@@ -119,33 +99,52 @@ const LoginPage = () => {
 
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Masukkan password akun…"
+              placeholder="Masukkan password…"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="px-4 py-3 w-full rounded-lg border border-zinc-300 focus:ring-2 focus:ring-(--highlight) outline-none"
+              required
             />
 
-            {/* Show / Hide */}
             <button
               type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
+              onClick={() => setShowPassword((p) => !p)}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-(--highlight)"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
 
-          {/* Forgot Password */}
-          <div className="flex justify-end -mt-3">
-            <Link
-              href="/forgot-password"
-              className="text-sm text-blue-500 hover:underline"
-            >
-              Lupa Password?
-            </Link>
+          {/* Role Selection */}
+          <div>
+            <label className="block mb-2 font-medium text-(--shade-gelap)">
+              Daftar sebagai
+            </label>
+
+            <div className="flex items-center gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  value="SISWA"
+                  checked={role === "SISWA"}
+                  onChange={(e) => setRole(e.target.value)}
+                />
+                <span>Siswa</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  value="ADMIN_STAN"
+                  checked={role === "ADMIN_STAN"}
+                  onChange={(e) => setRole(e.target.value)}
+                />
+                <span>Admin Stan</span>
+              </label>
+            </div>
           </div>
 
-          {/* Tombol login */}
+          {/* Tombol register */}
           <button
             type="submit"
             disabled={loading}
@@ -157,23 +156,24 @@ const LoginPage = () => {
             {loading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
             ) : (
-              "Login"
+              "Register"
             )}
           </button>
         </form>
 
-        <div className="flex justify-center -mt-3 gap-1">
-          <p>Belum punya akun?</p>
+        {/* Back to login */}
+        <p className="text-center mt-4 text-sm">
+          Sudah punya akun?{" "}
           <Link
-            href="/register"
+            href="/login"
             className="text-blue-500 font-bold hover:underline"
           >
-            Register
+            Masuk sekarang
           </Link>
-        </div>
+        </p>
       </div>
     </section>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
