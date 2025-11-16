@@ -162,7 +162,7 @@ const RegisterPage = () => {
         </form>
 
         {/* Back to login */}
-        <p className="text-center mt-4 text-sm">
+        <p className="text-center mt-4">
           Sudah punya akun?{" "}
           <Link
             href="/login"
