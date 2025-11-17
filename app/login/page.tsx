@@ -42,6 +42,8 @@ const LoginPage = () => {
         storeCookie("token", data.token);
         storeCookie("id", data.data.id);
         storeCookie("username", data.data.username);
+        storeCookie("nama_stan", data.data.nama_stan);
+        storeCookie("nama_pemilik", data.data.nama_pemilik);
         storeCookie("role", data.data.role);
 
         const role = data.data.role;
