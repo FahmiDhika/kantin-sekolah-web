@@ -1,10 +1,13 @@
 import { ReactNode } from "react";
 
 // import logo
-import { RxDashboard } from "react-icons/rx";
-import { MdRestaurantMenu } from "react-icons/md";
-import { GrTransaction } from "react-icons/gr";
-import { FaHistory } from "react-icons/fa";
+import {
+  HiOutlineViewGrid,
+  HiOutlineClipboardList,
+  HiOutlineShoppingBag,
+  HiOutlineChartBar,
+  HiOutlineUser,
+} from "react-icons/hi";
 
 interface IPropButton {
   id: string;
@@ -18,25 +21,31 @@ const buttonList: IPropButton[] = [
     id: `dashboard`,
     path: `/stan/dashboard`,
     label: `Dashboard`,
-    icon: <RxDashboard size={24} />,
+    icon: <HiOutlineViewGrid />,
   },
   {
     id: `menu`,
     path: `/stan/menu`,
     label: `Menu`,
-    icon: <MdRestaurantMenu size={24} />,
+    icon: <HiOutlineClipboardList />,
   },
   {
     id: `transaksi`,
     path: `/stan/transaksi`,
     label: `Transaksi`,
-    icon: <GrTransaction size={24} />,
+    icon: <HiOutlineShoppingBag />,
   },
   {
     id: `riwayat`,
     path: `/stan/riwayat`,
     label: `Riwayat`,
-    icon: <FaHistory size={24} />,
+    icon: <HiOutlineChartBar />,
+  },
+  {
+    id: `profile`,
+    path: `/stan/profile`,
+    label: `Profile`,
+    icon: <HiOutlineUser />,
   },
 ];
 
