@@ -78,7 +78,7 @@ const Sidebar = ({ children, title, id, buttonList }: SidebarProps) => {
             </div>
             <div>
               <p className="font-bold text-lg">Kantin Admin</p>
-              <p className="text-sm text-neutral-500">{namaStan}</p>
+              <p className="text-sm text-neutral-500 truncate">{namaStan}</p>
             </div>
           </div>
 
