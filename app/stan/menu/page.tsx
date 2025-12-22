@@ -1,4 +1,4 @@
-import { Plus, Search, Pencil, Trash2 } from "lucide-react";
+import { Search, Pencil, Trash2 } from "lucide-react";
 import SearchInput from "./search";
 import { IMenu } from "@/app/types";
 import { getCookies } from "@/lib/server-cookie";
@@ -6,6 +6,7 @@ import { BASE_API_URL, BASE_SUPABASE_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import Image from "next/image";
 import FilterJenis from "@/components/filter-menu";
+import AddMenuModal from "./addMenu";
 
 const getMenu = async (search: string, jenis: string): Promise<IMenu[]> => {
   try {
@@ -47,10 +48,7 @@ const MenuPage = async ({
           Kelola menu makanan dan minuman dari kantin anda.
         </p>
 
-        <button className="flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 text-sm font-medium text-white shadow hover:bg-orange-600">
-          <Plus size={18} />
-          Tambah Menu
-        </button>
+        <AddMenuModal />
       </div>
 
       {/* Search & Filter */}
