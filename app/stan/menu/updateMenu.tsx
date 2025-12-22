@@ -1,57 +1,46 @@
 "use client";
 
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Modal from "@/components/modal";
 import { IMenu } from "@/app/types";
-import { BASE_API_URL } from "@/global";
-import { post } from "@/lib/api-bridge";
+import { BASE_API_URL, BASE_SUPABASE_URL } from "@/global";
+import { put } from "@/lib/api-bridge";
 import { getCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 import Image from "next/image";
 
-export default function AddMenuModal() {
+interface Props {
+  menuData: IMenu;
+}
+
+export default function UpdateMenuModal({ menuData }: Props) {
   const [isShow, setIsShow] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [menu, setMenu] = useState<IMenu>(menuData);
+
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
-
-  const [menu, setMenu] = useState<IMenu>({
-    id: 0,
-    nama_menu: "",
-    deskripsi: "",
-    foto: "",
-    harga: 0,
-    jenis: "",
-    id_stan: 0,
-  });
-
   const TOKEN = getCookie("token");
 
-  if (!TOKEN) {
-    toast.error("Token tidak ditemukan, silakan login ulang", {
-      hideProgressBar: false,
-      containerId: "toastMenu",
-      type: "warning",
-    });
-    return;
-  }
+  useEffect(() => {
+    setMenu(menuData);
+    if (menuData.foto) {
+      setPreview(`${BASE_SUPABASE_URL}/menu/${menuData.foto}`);
+    }
+  }, [menuData]);
+
+  if (!TOKEN) return null;
 
   const openModal = () => {
-    setMenu({
-      id: 0,
-      nama_menu: "",
-      deskripsi: "",
-      foto: "",
-      harga: 0,
-      jenis: "",
-      id_stan: 0,
-    });
-    setFile(null);
+    setPreview(
+      menu.foto
+        ? `${BASE_SUPABASE_URL}/storage/v1/object/public//menu/${menu.foto}`
+        : null
+    );
     setIsShow(true);
-    formRef.current?.reset();
   };
 
   const closeModal = () => {
@@ -65,7 +54,7 @@ export default function AddMenuModal() {
     e.preventDefault();
 
     try {
-      const url = `${BASE_API_URL}/menu/add`;
+      const url = `${BASE_API_URL}/menu/update/${menu.id}`;
 
       const payload = new FormData();
       payload.append("nama_menu", menu.nama_menu);
@@ -74,7 +63,8 @@ export default function AddMenuModal() {
       payload.append("harga", menu.harga.toString());
       if (file) payload.append("foto", file);
 
-      const { data } = await post(url, payload, TOKEN);
+      const { data } = await put(url, payload, TOKEN);
+      console.log("DATA : ", data);
 
       if (data?.status) {
         setIsShow(false);
@@ -106,17 +96,12 @@ export default function AddMenuModal() {
 
   return (
     <>
-      {/* Trigger Button */}
-      <button
-        onClick={openModal}
-        className="flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 text-sm font-medium text-white shadow hover:bg-orange-600"
-      >
-        <Plus size={18} />
-        Tambah Menu
+      {/* Trigger */}
+      <button onClick={openModal} className="text-blue-600 hover:text-blue-800">
+        <Pencil size={18} />
       </button>
 
-      {/* Modal */}
-      <Modal open={isShow} onClose={closeModal} title="Tambah Menu">
+      <Modal open={isShow} onClose={closeModal} title="Update Menu">
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
           {/* Nama Menu */}
           <div>
@@ -125,6 +110,7 @@ export default function AddMenuModal() {
             </label>
             <input
               type="text"
+              value={menu.nama_menu}
               className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-primary"
               required
               onChange={(e) => setMenu({ ...menu, nama_menu: e.target.value })}
@@ -143,6 +129,7 @@ export default function AddMenuModal() {
               </span>
               <input
                 type="number"
+                value={menu.harga}
                 required
                 className="w-full rounded-lg border py-2 pl-10 pr-3 focus:ring-2 focus:ring-primary"
                 onChange={(e) =>
@@ -158,6 +145,7 @@ export default function AddMenuModal() {
               Jenis <span className="text-red-500">*</span>
             </label>
             <select
+              value={menu.jenis}
               className="w-full rounded-lg border px-3 py-2"
               required
               onChange={(e) => setMenu({ ...menu, jenis: e.target.value })}
@@ -172,6 +160,7 @@ export default function AddMenuModal() {
           <div>
             <label className="mb-1 block text-sm font-medium">Deskripsi</label>
             <textarea
+              value={menu.deskripsi}
               className="w-full rounded-lg border px-3 py-2"
               rows={3}
               onChange={(e) => setMenu({ ...menu, deskripsi: e.target.value })}
@@ -187,9 +176,8 @@ export default function AddMenuModal() {
                   <Image
                     src={preview}
                     alt="Preview Menu"
-                    className="w-full h-full text-center object-cover"
-                    width={48}
-                    height={48}
+                    fill
+                    className="object-cover"
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-sm text-gray-400">
@@ -198,6 +186,7 @@ export default function AddMenuModal() {
                 )}
               </div>
             </div>
+
             <input
               type="file"
               accept="image/*"
@@ -214,16 +203,14 @@ export default function AddMenuModal() {
 
           {/* Action */}
           <div className="mt-6 flex justify-between border-t pt-4">
-            {/* Batal */}
             <button
               type="button"
-              onClick={() => setIsShow(false)}
+              onClick={closeModal}
               className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-50"
             >
               Batal
             </button>
 
-            {/* Simpan */}
             <button
               type="submit"
               disabled={isDisabled}
@@ -233,7 +220,7 @@ export default function AddMenuModal() {
                   : "bg-orange-500 hover:bg-orange-600"
               }`}
             >
-              Simpan Menu
+              Update Menu
             </button>
           </div>
         </form>

@@ -22,12 +22,7 @@ export default function Modal({
   showCloseButton = true,
 }: ModalProps) {
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
+    document.body.style.overflow = open ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -51,11 +46,16 @@ export default function Modal({
 
       {/* Modal */}
       <div
-        className={`relative w-full ${sizeClass[size]} mx-4 rounded-xl bg-white shadow-lg animate-in fade-in zoom-in`}
+        className={`
+          relative w-full ${sizeClass[size]} mx-4
+          rounded-xl bg-white shadow-lg
+          max-h-[90vh] flex flex-col
+          animate-in fade-in zoom-in
+        `}
       >
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="flex items-center justify-between border-b px-5 py-3">
+          <div className="flex items-center justify-between border-b px-5 py-3 shrink-0">
             <h2 className="text-lg font-semibold">{title}</h2>
 
             {showCloseButton && (
@@ -69,9 +69,10 @@ export default function Modal({
           </div>
         )}
 
-        {/* Content */}
-        <div className="px-5 py-4">{children}</div>
+        {/* Content (SCROLLABLE) */}
+        <div className="px-5 py-4 overflow-y-auto">{children}</div>
       </div>
     </div>
   );
 }
+

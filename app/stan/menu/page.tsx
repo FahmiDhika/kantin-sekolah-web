@@ -1,4 +1,4 @@
-import { Search, Pencil, Trash2 } from "lucide-react";
+import { Search, Trash2 } from "lucide-react";
 import SearchInput from "./search";
 import { IMenu } from "@/app/types";
 import { getCookies } from "@/lib/server-cookie";
@@ -7,6 +7,7 @@ import { get } from "@/lib/api-bridge";
 import Image from "next/image";
 import FilterJenis from "@/components/filter-menu";
 import AddMenuModal from "./addMenu";
+import UpdateMenuModal from "./updateMenu";
 
 const getMenu = async (search: string, jenis: string): Promise<IMenu[]> => {
   try {
@@ -147,9 +148,7 @@ const MenuPage = async ({
                     {/* Aksi */}
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-3">
-                        <button className="text-blue-600 hover:text-blue-800">
-                          <Pencil size={18} />
-                        </button>
+                        <UpdateMenuModal menuData={menu} />
                         <button className="text-red-600 hover:text-red-800">
                           <Trash2 size={18} />
                         </button>
