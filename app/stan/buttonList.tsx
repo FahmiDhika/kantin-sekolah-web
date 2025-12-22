@@ -7,6 +7,7 @@ import {
   HiOutlineShoppingBag,
   HiOutlineChartBar,
   HiOutlineUser,
+  HiOutlineTag
 } from "react-icons/hi";
 
 interface IPropButton {
@@ -28,6 +29,12 @@ const buttonList: IPropButton[] = [
     path: `/stan/menu`,
     label: `Menu`,
     icon: <HiOutlineClipboardList />,
+  },
+  {
+    id: `diskon`,
+    path: `/stan/diskon`,
+    label: `Diskon`,
+    icon: <HiOutlineTag />,
   },
   {
     id: `transaksi`,
