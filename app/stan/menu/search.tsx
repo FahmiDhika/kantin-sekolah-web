@@ -1,32 +1,33 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { KeyboardEvent, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-type Props = {
+export default function SearchInput({
+  url,
+  search,
+}: {
   url: string;
   search: string;
-};
-
-const SearchInput = ({ url, search }: Props) => {
-  const [keyword, setKeyword] = useState<string>(search);
+}) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const jenis = searchParams.get("jenis");
 
-  const handleSearch = (e: KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    router.push(`${url}?search=${keyword}`);
+  const onSearch = (value: string) => {
+    const params = new URLSearchParams();
+
+    if (value) params.set("search", value);
+    if (jenis) params.set("jenis", jenis);
+
+    router.push(`${url}?${params.toString()}`);
   };
 
   return (
     <input
-      type="text"
-      id="keyword"
-      value={keyword}
-      onChange={(e) => setKeyword(e.target.value)}
-      className={`w-full rounded-xl border px-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500`}
+      defaultValue={search}
       placeholder="Cari menu..."
-      onKeyUp={handleSearch}
+      className="w-full rounded-xl border px-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+      onChange={(e) => onSearch(e.target.value)}
     />
   );
-};
-export default SearchInput;
+}

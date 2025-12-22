@@ -5,14 +5,23 @@ import { getCookies } from "@/lib/server-cookie";
 import { BASE_API_URL, BASE_SUPABASE_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import Image from "next/image";
+import FilterJenis from "@/components/filter-menu";
 
-const getMenu = async (search: string): Promise<IMenu[]> => {
+const getMenu = async (search: string, jenis: string): Promise<IMenu[]> => {
   try {
     const TOKEN = await getCookies("token");
-    const url = `${BASE_API_URL}/menu/get?search=${search}`;
+    const params = new URLSearchParams();
+
+    if (search) params.set("search", search);
+    if (jenis && jenis !== "all") params.set("jenis", jenis);
+
+    const url = `${BASE_API_URL}/menu/get?${params.toString()}`;
+
     const { data } = await get(url, TOKEN);
+
     let result: IMenu[] = [];
     if (data?.status) result = [...data.data];
+
     return result;
   } catch (error) {
     console.log(error);
@@ -26,10 +35,9 @@ const MenuPage = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const search = searchParams.search?.toString() ?? "";
+  const jenis = searchParams.jenis?.toString() ?? "all";
 
-  const menu: IMenu[] = await getMenu(search);
-
-  console.log("Data MENU : ", menu);
+  const menu: IMenu[] = await getMenu(search, jenis);
 
   return (
     <section className="space-y-6">
@@ -55,11 +63,7 @@ const MenuPage = async ({
           <SearchInput url="/stan/menu" search={search} />
         </div>
 
-        <select className="w-full sm:w-auto rounded-xl border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
-          <option>Semua</option>
-          <option>Makanan</option>
-          <option>Minuman</option>
-        </select>
+        <FilterJenis />
       </div>
 
       {/* Table */}
