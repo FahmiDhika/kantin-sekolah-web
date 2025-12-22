@@ -74,11 +74,9 @@ const MenuPage = async ({
             <thead className="bg-gray-50 text-left">
               <tr>
                 <th className="px-6 py-4 font-medium">Menu</th>
-                <th className="px-6 py-4 font-medium">Kategori</th>
+                <th className="px-6 py-4 font-medium">Deskripsi</th>
+                <th className="px-6 py-4 font-medium">Jenis</th>
                 <th className="px-6 py-4 font-medium">Harga</th>
-                <th className="px-6 py-4 font-medium hidden md:table-cell">
-                  Stok
-                </th>
                 <th className="px-6 py-4 font-medium">Status</th>
                 <th className="px-6 py-4 font-medium text-center">Aksi</th>
               </tr>
@@ -88,7 +86,7 @@ const MenuPage = async ({
               {menu.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={7}
+                    colSpan={6}
                     className="px-6 py-10 text-center text-sm text-muted-foreground"
                   >
                     Menu tidak ditemukan
@@ -100,7 +98,6 @@ const MenuPage = async ({
                     {/* Menu */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        {/* Foto */}
                         <div className="h-10 w-10 overflow-hidden rounded-lg bg-gray-200 shrink-0">
                           {menu.foto && (
                             <Image
@@ -113,30 +110,38 @@ const MenuPage = async ({
                           )}
                         </div>
 
-                        <div>
-                          <p className="font-medium">{menu.nama_menu}</p>
-                        </div>
+                        <p className="font-medium">{menu.nama_menu}</p>
                       </div>
                     </td>
 
-                    {/* Kategori / Jenis */}
-                    <td className="px-6 py-4 capitalize">{menu.jenis}</td>
+                    {/* Deskripsi */}
+                    <td className="px-6 py-4 max-w-xs">
+                      <p className="line-clamp-2 text-muted-foreground text-sm">
+                        {menu.deskripsi || "-"}
+                      </p>
+                    </td>
+
+                    {/* Jenis */}
+                    <td className="px-6 py-4">
+                      <span
+                        className={`rounded-full px-3 py-1 text-sm font-medium ${
+                          menu.jenis === "MAKANAN"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-blue-100 text-blue-700"
+                        }`}
+                      >
+                        {menu.jenis}
+                      </span>
+                    </td>
 
                     {/* Harga */}
                     <td className="px-6 py-4">
                       Rp. {menu.harga.toLocaleString()}
                     </td>
 
-                    {/* Stok (BELUM ADA DI TYPE → UI DEFAULT) */}
-                    <td className="px-6 py-4 hidden md:table-cell">
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs text-green-700">
-                        -
-                      </span>
-                    </td>
-
-                    {/* Status (BELUM ADA DI TYPE → UI DEFAULT) */}
+                    {/* Status */}
                     <td className="px-6 py-4">
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs text-green-700">
+                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
                         Tersedia
                       </span>
                     </td>
