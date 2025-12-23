@@ -10,6 +10,20 @@ export const middleware = async (req: NextRequest) => {
     return NextResponse.redirect(redirectAdmin);
   }
 
+  if (req.nextUrl.pathname === "/login" && token && role) {
+    const redirectAdmin = req.nextUrl.clone();
+
+    if (role === "ADMIN_STAN") {
+      redirectAdmin.pathname = "/stan/dashboard";
+    } else if (role === "SISWA") {
+      redirectAdmin.pathname = "/siswa/home";
+    } else {
+      redirectAdmin.pathname = "/";
+    }
+
+    return NextResponse.redirect(redirectAdmin);
+  }
+
   if (req.nextUrl.pathname.startsWith("/stan")) {
     if (!token || !role) {
       const redirectAdmin = req.nextUrl.clone();
@@ -43,5 +57,5 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/stan/:path", "/siswa/:path", "/"],
+  matcher: ["/stan/:path", "/siswa/:path", "/", "/login"],
 };
