@@ -1,4 +1,4 @@
-import { Search, Trash2 } from "lucide-react";
+import { Search } from "lucide-react";
 import SearchInput from "./search";
 import { IMenu } from "@/app/types";
 import { getCookies } from "@/lib/server-cookie";
@@ -8,6 +8,7 @@ import Image from "next/image";
 import FilterJenis from "@/components/filter-menu";
 import AddMenuModal from "./addMenu";
 import UpdateMenuModal from "./updateMenu";
+import ActiveMenuModal from "./activeMenu";
 
 const getMenu = async (search: string, jenis: string): Promise<IMenu[]> => {
   try {
@@ -140,18 +141,22 @@ const MenuPage = async ({
 
                     {/* Status */}
                     <td className="px-6 py-4">
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                        Tersedia
-                      </span>
+                      {menu.is_active ? (
+                        <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+                          Tersedia
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
+                          Tidak Dijual
+                        </span>
+                      )}
                     </td>
 
                     {/* Aksi */}
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-3">
                         <UpdateMenuModal menuData={menu} />
-                        <button className="text-red-600 hover:text-red-800">
-                          <Trash2 size={18} />
-                        </button>
+                        <ActiveMenuModal menuData={menu} />
                       </div>
                     </td>
                   </tr>
