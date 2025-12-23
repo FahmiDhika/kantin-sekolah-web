@@ -74,18 +74,21 @@ export const post = async (
 
 export const put = async (
   url: string,
-  data: string | FormData,
+  data: Record<string, unknown> | string | FormData,
   token: string
 ) => {
   try {
-    const type: string =
-      typeof data == "string" ? "application/json" : "multipart/form-data";
-    const result = await axiosInstance.put(url, data, {
-      headers: {
-        Authorization: `Bearer ${token}` || "",
-        "Content-Type": type,
-      },
-    });
+    const isFormData = data instanceof FormData;
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+    };
+
+    const payload = isFormData ? data : JSON.stringify(data);
+
+    const result = await axiosInstance.put(url, payload, { headers });
+
     return {
       status: true,
       data: result.data,

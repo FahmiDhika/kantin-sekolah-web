@@ -1,11 +1,12 @@
 "use server";
 
-import { Pencil, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { IDiskon } from "@/app/types";
 import { BASE_API_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import { getCookies } from "@/lib/server-cookie";
 import AddDiskonModal from "./addDiskon";
+import UpdateDiskonModal from "./updateDiskon";
 
 const getDiskon = async (): Promise<IDiskon[]> => {
   try {
@@ -170,34 +171,34 @@ const DiskonPage = async ({
                   </td>
                 </tr>
               ) : (
-                diskon.map((item, index) => (
-                  <tr key={item.id} className="border-t">
+                diskon.map((diskon, index) => (
+                  <tr key={diskon.id} className="border-t">
                     {/* No */}
                     <td className="px-6 py-4">{index + 1}</td>
 
                     {/* Nama Diskon */}
                     <td className="px-6 py-4 font-medium">
-                      {item.nama_diskon}
+                      {diskon.nama_diskon}
                     </td>
 
                     {/* Persentase */}
                     <td className="px-6 py-4">
                       <span className="rounded-full bg-orange-100 px-3 py-1 text-sm font-medium text-orange-700">
-                        {item.persentase}%
+                        {diskon.persentase}%
                       </span>
                     </td>
 
                     {/* Periode */}
                     <td className="px-6 py-4 text-sm text-muted-foreground">
-                      {formatDate(item.tanggal_awal)} –{" "}
-                      {formatDate(item.tanggal_akhir)}
+                      {formatDate(diskon.tanggal_awal)} –{" "}
+                      {formatDate(diskon.tanggal_akhir)}
                     </td>
 
                     {/* Menu */}
                     <td className="px-6 py-4 max-w-xs">
-                      {item.menu_diskon && item.menu_diskon.length > 0 ? (
+                      {diskon.menu_diskon && diskon.menu_diskon.length > 0 ? (
                         <ul className="space-y-1 text-sm">
-                          {item.menu_diskon?.map((md) => (
+                          {diskon.menu_diskon?.map((md) => (
                             <li key={md.id} className="line-clamp-1">
                               • {md.menu.nama_menu}
                             </li>
@@ -213,9 +214,7 @@ const DiskonPage = async ({
                     {/* Aksi */}
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-3">
-                        <button className="text-blue-600 hover:text-blue-800">
-                          <Pencil size={18} />
-                        </button>
+                        <UpdateDiskonModal diskonData={diskon} />
                         <button className="text-red-600 hover:text-red-800">
                           <Trash2 size={18} />
                         </button>

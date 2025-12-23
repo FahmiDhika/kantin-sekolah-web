@@ -47,7 +47,7 @@ const ActiveMenuModal = ({ menuData }: { menuData: IMenu }) => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Terjadi kesalahan", {
+      toast("Terjadi kesalahan", {
         hideProgressBar: false,
         containerId: "toastMenu",
         type: "error",

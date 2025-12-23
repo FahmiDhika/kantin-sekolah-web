@@ -4,48 +4,32 @@ import { FormEvent, useRef, useState } from "react";
 import Modal from "@/components/modal";
 import { IDiskon } from "@/app/types";
 import { BASE_API_URL } from "@/global";
-import { post } from "@/lib/api-bridge";
+import { put } from "@/lib/api-bridge";
 import { getCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 
-const AddDiskonModal = () => {
+interface Props {
+  diskonData: IDiskon;
+}
+
+const formatDateInput = (date: string) =>
+  new Date(date).toISOString().split("T")[0];
+
+const UpdateDiskonModal = ({ diskonData }: Props) => {
   const [isShow, setIsShow] = useState(false);
+  const [diskon, setDiskon] = useState<IDiskon>(diskonData);
+
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
-  const [diskon, setDiskon] = useState<IDiskon>({
-    id: 0,
-    id_stan: 0,
-    nama_diskon: "",
-    persentase: 0,
-    tanggal_akhir: "",
-    tanggal_awal: "",
-  });
-
   const TOKEN = getCookie("token");
-
-  if (!TOKEN) {
-    toast.error("Token tidak ditemukan, silakan login ulang", {
-      hideProgressBar: false,
-      containerId: "toastDiskon",
-      type: "warning",
-    });
-    return;
-  }
+  if (!TOKEN) return null;
 
   const openModal = () => {
-    setDiskon({
-      id: 0,
-      id_stan: 0,
-      nama_diskon: "",
-      persentase: 0,
-      tanggal_akhir: "",
-      tanggal_awal: "",
-    });
+    setDiskon(diskonData);
     setIsShow(true);
-    formRef.current?.reset();
   };
 
   const closeModal = () => {
@@ -57,7 +41,7 @@ const AddDiskonModal = () => {
     e.preventDefault();
 
     try {
-      const url = `${BASE_API_URL}/diskon/create`;
+      const url = `${BASE_API_URL}/diskon/update/${diskonData.id}`;
 
       const payload = {
         nama_diskon: diskon.nama_diskon,
@@ -66,21 +50,22 @@ const AddDiskonModal = () => {
         tanggal_akhir: diskon.tanggal_akhir,
       };
 
-      const { data } = await post(url, payload, TOKEN);
+      const { data } = await put(url, payload, TOKEN);
 
       if (data?.status) {
         setIsShow(false);
-        toast(data?.message, {
+        toast(`Data diskon ${diskon.nama_diskon} berhasil di update.`, {
           hideProgressBar: false,
-          containerId: `toastDiskon`,
+          containerId: "toastDiskon",
           type: "success",
         });
+        closeModal();
         setTimeout(() => router.refresh(), 1000);
       } else {
         toast(data?.message, {
           hideProgressBar: false,
-          containerId: `toastDiskon`,
-          type: `warning`,
+          containerId: "toastDiskon",
+          type: "warning",
         });
       }
     } catch (error) {
@@ -102,16 +87,12 @@ const AddDiskonModal = () => {
   return (
     <>
       {/* Trigger Button */}
-      <button
-        onClick={openModal}
-        className="flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 text-sm font-medium text-white shadow hover:bg-orange-600"
-      >
-        <Plus size={18} />
-        Tambah Diskon
+      <button onClick={openModal} className="text-blue-600 hover:text-blue-800">
+        <Pencil size={18} />
       </button>
 
       {/* Modal */}
-      <Modal open={isShow} onClose={closeModal} title="Tambah Diskon">
+      <Modal open={isShow} onClose={closeModal} title="Update Diskon">
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
           {/* Nama Diskon */}
           <div>
@@ -121,7 +102,8 @@ const AddDiskonModal = () => {
             <input
               type="text"
               required
-              className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-primary"
+              defaultValue={diskon.nama_diskon}
+              className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-orange-500"
               onChange={(e) =>
                 setDiskon({ ...diskon, nama_diskon: e.target.value })
               }
@@ -139,7 +121,8 @@ const AddDiskonModal = () => {
                 min={1}
                 max={100}
                 required
-                className="w-full rounded-lg border py-2 pl-3 pr-10 focus:ring-2 focus:ring-primary"
+                defaultValue={diskon.persentase}
+                className="w-full rounded-lg border py-2 pl-3 pr-10 focus:ring-2 focus:ring-orange-500"
                 onChange={(e) =>
                   setDiskon({
                     ...diskon,
@@ -161,6 +144,7 @@ const AddDiskonModal = () => {
             <input
               type="date"
               required
+              defaultValue={formatDateInput(diskon.tanggal_awal)}
               className="w-full rounded-lg border px-3 py-2"
               onChange={(e) =>
                 setDiskon({ ...diskon, tanggal_awal: e.target.value })
@@ -176,6 +160,7 @@ const AddDiskonModal = () => {
             <input
               type="date"
               required
+              defaultValue={formatDateInput(diskon.tanggal_akhir)}
               className="w-full rounded-lg border px-3 py-2"
               onChange={(e) =>
                 setDiskon({ ...diskon, tanggal_akhir: e.target.value })
@@ -185,7 +170,6 @@ const AddDiskonModal = () => {
 
           {/* Action */}
           <div className="mt-6 flex justify-between border-t pt-4">
-            {/* Batal */}
             <button
               type="button"
               onClick={closeModal}
@@ -194,7 +178,6 @@ const AddDiskonModal = () => {
               Batal
             </button>
 
-            {/* Simpan */}
             <button
               type="submit"
               disabled={isDisabled}
@@ -204,7 +187,7 @@ const AddDiskonModal = () => {
                   : "bg-orange-500 hover:bg-orange-600"
               }`}
             >
-              Simpan Diskon
+              Simpan Perubahan
             </button>
           </div>
         </form>
@@ -213,4 +196,4 @@ const AddDiskonModal = () => {
   );
 };
 
-export default AddDiskonModal;
+export default UpdateDiskonModal;

@@ -64,11 +64,10 @@ export default function UpdateMenuModal({ menuData }: Props) {
       if (file) payload.append("foto", file);
 
       const { data } = await put(url, payload, TOKEN);
-      console.log("DATA : ", data);
 
       if (data?.status) {
         setIsShow(false);
-        toast.success(data?.message, {
+        toast(data?.message, {
           hideProgressBar: false,
           containerId: `toastMenu`,
           type: `success`,
@@ -76,7 +75,7 @@ export default function UpdateMenuModal({ menuData }: Props) {
         closeModal();
         setTimeout(() => router.refresh(), 1000);
       } else {
-        toast.warning(data?.message, {
+        toast(data?.message, {
           hideProgressBar: false,
           containerId: `toastMenu`,
           type: `warning`,
@@ -84,7 +83,7 @@ export default function UpdateMenuModal({ menuData }: Props) {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Terjadi kesalahan", {
+      toast("Terjadi kesalahan", {
         hideProgressBar: false,
         containerId: "toastMenu",
         type: "error",

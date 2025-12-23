@@ -1,6 +1,7 @@
 import StanTemplate from "@/components/stan-template";
 import { Metadata } from "next";
 import buttonList from "../buttonList";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Diskon | Admin Stan",
@@ -15,6 +16,7 @@ export default function RegisterLayout({
 }) {
   return (
     <StanTemplate title="Diskon" id="diskon" buttonList={buttonList}>
+      <ToastContainer containerId={`toastDiskon`} />
       {children}
     </StanTemplate>
   );
