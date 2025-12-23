@@ -7,6 +7,8 @@ import { getCookies } from "@/lib/server-cookie";
 import AddDiskonModal from "./addDiskon";
 import UpdateDiskonModal from "./updateDiskon";
 import DeleteDiskonModal from "./deleteDiskon";
+import AttachDiskon from "./attachDiskon";
+import DetachDiskon from "./detachDiskon";
 
 const getDiskon = async (): Promise<IDiskon[]> => {
   try {
@@ -99,23 +101,38 @@ const DiskonPage = async ({
 
       {/* Diskon Aktif */}
       <div className="rounded-2xl bg-white p-4 shadow">
-        <h2 className="mb-2 text-sm font-semibold">Diskon Aktif Saat Ini</h2>
+        <h2 className="mb-3 text-sm font-semibold">Diskon Aktif Saat Ini</h2>
 
         {activeDiskon.length === 0 ? (
           <p className="text-sm text-muted-foreground">
             Tidak ada diskon yang aktif saat ini
           </p>
         ) : (
-          <div className="flex flex-wrap gap-2">
+          <ul className="space-y-2 max-w-3xl">
             {activeDiskon.map((d) => (
-              <span
+              <li
                 key={d.id}
-                className="rounded-full bg-green-100 px-4 py-1 text-sm font-medium text-green-700"
+                className="flex items-center justify-between rounded-xl px-4 py-2.5 bg-green-100"
               >
-                {d.nama_diskon} ({d.persentase}%)
-              </span>
+                {/* Info */}
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-medium truncate">
+                    {d.nama_diskon}
+                  </span>
+
+                  <span className="rounded-md bg-green-300 px-2 py-0.5 text-xs font-medium text-green-700">
+                    {d.persentase}%
+                  </span>
+                </div>
+
+                {/* Action */}
+                <AttachDiskon
+                  id_diskon={d.id}
+                  usedMenuIds={d.menu_diskon?.map((md) => md.id_menu) ?? []}
+                />
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
 
@@ -196,16 +213,16 @@ const DiskonPage = async ({
 
                     {/* Menu */}
                     <td className="px-6 py-4 max-w-xs">
-                      {diskon.menu_diskon && diskon.menu_diskon.length > 0 ? (
-                        <ul className="space-y-1 text-sm">
-                          {diskon.menu_diskon?.map((md) => (
+                      {diskon.menu_diskon?.length ? (
+                        <ul className="space-y-1 text-sm text-muted-foreground">
+                          {diskon.menu_diskon.map((md) => (
                             <li key={md.id} className="line-clamp-1">
                               • {md.menu.nama_menu}
                             </li>
                           ))}
                         </ul>
                       ) : (
-                        <span className="italic text-muted-foreground text-red-600">
+                        <span className="italic text-red-600 text-sm">
                           Tidak ada menu yang dipasang
                         </span>
                       )}
@@ -213,7 +230,13 @@ const DiskonPage = async ({
 
                     {/* Aksi */}
                     <td className="px-6 py-4">
-                      <div className="flex justify-center gap-3">
+                      <div className="flex justify-center gap-2">
+                        {diskon.menu_diskon?.length ? (
+                          <DetachDiskon
+                            id_diskon={diskon.id}
+                            menus={diskon.menu_diskon.map((md) => md.menu)}
+                          />
+                        ) : null}
                         <UpdateDiskonModal diskonData={diskon} />
                         <DeleteDiskonModal selectedDiskon={diskon} />
                       </div>

@@ -6,7 +6,8 @@ export interface IMenu {
   foto: string;
   deskripsi: string;
   id_stan: number;
-  is_active: boolean
+  is_active: boolean;
+  has_diskon: boolean;
 }
 
 export interface IMenuDiskon {
