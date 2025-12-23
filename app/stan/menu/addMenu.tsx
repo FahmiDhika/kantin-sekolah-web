@@ -26,6 +26,7 @@ export default function AddMenuModal() {
     harga: 0,
     jenis: "",
     id_stan: 0,
+    is_active: true,
   });
 
   const TOKEN = getCookie("token");
@@ -48,6 +49,7 @@ export default function AddMenuModal() {
       harga: 0,
       jenis: "",
       id_stan: 0,
+      is_active: true,
     });
     setFile(null);
     setIsShow(true);
@@ -78,7 +80,7 @@ export default function AddMenuModal() {
 
       if (data?.status) {
         setIsShow(false);
-        toast.success(data?.message, {
+        toast(data?.message, {
           hideProgressBar: false,
           containerId: `toastMenu`,
           type: `success`,
@@ -86,7 +88,7 @@ export default function AddMenuModal() {
         closeModal();
         setTimeout(() => router.refresh(), 1000);
       } else {
-        toast.warning(data?.message, {
+        toast(data?.message, {
           hideProgressBar: false,
           containerId: `toastMenu`,
           type: `warning`,
@@ -94,7 +96,7 @@ export default function AddMenuModal() {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Terjadi kesalahan", {
+      toast("Terjadi kesalahan", {
         hideProgressBar: false,
         containerId: "toastMenu",
         type: "error",

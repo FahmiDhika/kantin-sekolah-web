@@ -1,3 +1,5 @@
+"use server"
+
 import { Search } from "lucide-react";
 import SearchInput from "./search";
 import { IMenu } from "@/app/types";

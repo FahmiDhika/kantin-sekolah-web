@@ -1,8 +1,11 @@
-import { Plus, Pencil, Trash2 } from "lucide-react";
+"use server";
+
+import { Pencil, Trash2 } from "lucide-react";
 import { IDiskon } from "@/app/types";
 import { BASE_API_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import { getCookies } from "@/lib/server-cookie";
+import AddDiskonModal from "./addDiskon";
 
 const getDiskon = async (): Promise<IDiskon[]> => {
   try {
@@ -90,10 +93,7 @@ const DiskonPage = async ({
           Kelola diskon yang tersedia di stan anda.
         </p>
 
-        <button className="flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 text-sm font-medium text-white shadow hover:bg-orange-600">
-          <Plus size={18} />
-          Tambah Diskon
-        </button>
+        <AddDiskonModal />
       </div>
 
       {/* Diskon Aktif */}
@@ -195,9 +195,9 @@ const DiskonPage = async ({
 
                     {/* Menu */}
                     <td className="px-6 py-4 max-w-xs">
-                      {item.menu_diskon.length > 0 ? (
+                      {item.menu_diskon && item.menu_diskon.length > 0 ? (
                         <ul className="space-y-1 text-sm">
-                          {item.menu_diskon.map((md) => (
+                          {item.menu_diskon?.map((md) => (
                             <li key={md.id} className="line-clamp-1">
                               • {md.menu.nama_menu}
                             </li>

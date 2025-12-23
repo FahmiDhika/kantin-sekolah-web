@@ -23,5 +23,5 @@ export interface IDiskon {
   tanggal_awal: string;
   tanggal_akhir: string;
   id_stan: number;
-  menu_diskon: IMenuDiskon[];
+  menu_diskon?: IMenuDiskon[];
 }
