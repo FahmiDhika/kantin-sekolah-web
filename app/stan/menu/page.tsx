@@ -28,8 +28,6 @@ const getMenu = async (
 
     const url = `${BASE_API_URL}/menu/get?${params.toString()}`;
 
-    console.log(url);
-
     const { data } = await get(url, TOKEN);
 
     let result: IMenu[] = [];

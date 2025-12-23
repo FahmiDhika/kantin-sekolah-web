@@ -1,12 +1,12 @@
 "use server";
 
-import { Trash2 } from "lucide-react";
 import { IDiskon } from "@/app/types";
 import { BASE_API_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import { getCookies } from "@/lib/server-cookie";
 import AddDiskonModal from "./addDiskon";
 import UpdateDiskonModal from "./updateDiskon";
+import DeleteDiskonModal from "./deleteDiskon";
 
 const getDiskon = async (): Promise<IDiskon[]> => {
   try {
@@ -215,9 +215,7 @@ const DiskonPage = async ({
                     <td className="px-6 py-4">
                       <div className="flex justify-center gap-3">
                         <UpdateDiskonModal diskonData={diskon} />
-                        <button className="text-red-600 hover:text-red-800">
-                          <Trash2 size={18} />
-                        </button>
+                        <DeleteDiskonModal selectedDiskon={diskon} />
                       </div>
                     </td>
                   </tr>
