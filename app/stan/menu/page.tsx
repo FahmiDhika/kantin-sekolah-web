@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { Search } from "lucide-react";
 import SearchInput from "./search";
@@ -11,16 +11,24 @@ import FilterJenis from "@/components/filter-menu";
 import AddMenuModal from "./addMenu";
 import UpdateMenuModal from "./updateMenu";
 import ActiveMenuModal from "./activeMenu";
+import FilterStatus from "@/components/active-menu";
 
-const getMenu = async (search: string, jenis: string): Promise<IMenu[]> => {
+const getMenu = async (
+  search: string,
+  jenis: string,
+  is_active: string
+): Promise<IMenu[]> => {
   try {
     const TOKEN = await getCookies("token");
     const params = new URLSearchParams();
 
     if (search) params.set("search", search);
     if (jenis && jenis !== "all") params.set("jenis", jenis);
+    if (is_active && is_active !== "all") params.set(`is_active`, is_active);
 
     const url = `${BASE_API_URL}/menu/get?${params.toString()}`;
+
+    console.log(url);
 
     const { data } = await get(url, TOKEN);
 
@@ -41,8 +49,9 @@ const MenuPage = async ({
 }) => {
   const search = searchParams.search?.toString() ?? "";
   const jenis = searchParams.jenis?.toString() ?? "all";
+  const is_active = searchParams.is_active?.toString() ?? "all";
 
-  const menu: IMenu[] = await getMenu(search, jenis);
+  const menu: IMenu[] = await getMenu(search, jenis, is_active);
 
   return (
     <section className="space-y-6">
@@ -66,6 +75,7 @@ const MenuPage = async ({
         </div>
 
         <FilterJenis />
+        <FilterStatus />
       </div>
 
       {/* Table */}
@@ -148,7 +158,7 @@ const MenuPage = async ({
                           Tersedia
                         </span>
                       ) : (
-                        <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
+                        <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700 truncate">
                           Tidak Dijual
                         </span>
                       )}

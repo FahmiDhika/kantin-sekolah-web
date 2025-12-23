@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-function FilterJenis() {
+function FilterStatus() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -11,30 +11,36 @@ function FilterJenis() {
   const currentStatus = searchParams.get("is_active") ?? "all";
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const jenis = e.target.value;
+    const is_active = e.target.value;
     const params = new URLSearchParams();
 
+    // pertahankan search
     if (currentSearch) params.set("search", currentSearch);
-    if (currentStatus && currentJenis !== "all") {
-      params.set("is_active", currentStatus);
+
+    // pertahankan jenis
+    if (currentJenis && currentJenis !== "all") {
+      params.set("jenis", currentJenis);
     }
 
-    if (jenis !== "all") params.set("jenis", jenis);
+    // status
+    if (is_active !== "all") {
+      params.set("is_active", is_active);
+    }
 
     router.push(`/stan/menu?${params.toString()}`);
   };
 
   return (
     <select
-      value={currentJenis}
+      value={currentStatus}
       onChange={handleChange}
       className="w-full sm:w-auto rounded-xl border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
     >
-      <option value="all">Semua</option>
-      <option value="MAKANAN">Makanan</option>
-      <option value="MINUMAN">Minuman</option>
+      <option value="all">Semua Status</option>
+      <option value="true">Aktif</option>
+      <option value="false">Nonaktif</option>
     </select>
   );
 }
 
-export default FilterJenis;
+export default FilterStatus;
