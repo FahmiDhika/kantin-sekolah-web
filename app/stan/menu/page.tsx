@@ -116,7 +116,7 @@ const MenuPage = async ({
                               alt={menu.nama_menu}
                               width={40}
                               height={40}
-                              className="object-cover"
+                              className="object-cover aspect-square"
                             />
                           )}
                         </div>

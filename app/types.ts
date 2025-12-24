@@ -35,3 +35,23 @@ export interface IDiskon {
   id_stan: number;
   menu_diskon?: IMenuDiskon[];
 }
+
+export interface IUserLogin {
+  id: number;
+  username: string;
+  role: "ADMIN_STAN" | "SISWA";
+  stan: {
+    id: number;
+    nama_stan: string;
+    nama_pemilik: string;
+    telepon: string;
+  }[];
+  siswa: {
+    id: number;
+    uuid: string;
+    nama: string;
+    alamat: string;
+    telepon: string;
+    foto: string;
+  }[];
+}
