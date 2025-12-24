@@ -1,13 +1,22 @@
 export interface IMenu {
   id: number;
   nama_menu: string;
-  harga: number;
-  jenis: string;
-  foto: string;
   deskripsi: string;
-  id_stan: number;
+  jenis: "MAKANAN" | "MINUMAN";
+  foto: string;
   is_active: boolean;
-  has_diskon: boolean;
+
+  harga: number;
+  harga_asli: number;
+  harga_diskon: number;
+  is_diskon: boolean;
+  persentase?: number;
+
+  diskon?: {
+    id: number;
+    nama_diskon: string;
+    persentase: number;
+  } | null;
 }
 
 export interface IMenuDiskon {

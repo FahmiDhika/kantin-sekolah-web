@@ -87,6 +87,7 @@ const MenuPage = async ({
                 <th className="px-6 py-4 font-medium">Deskripsi</th>
                 <th className="px-6 py-4 font-medium">Jenis</th>
                 <th className="px-6 py-4 font-medium">Harga</th>
+                <th className="px-6 py-4 font-medium">Harga Diskon</th>
                 <th className="px-6 py-4 font-medium">Status</th>
                 <th className="px-6 py-4 font-medium text-center">Aksi</th>
               </tr>
@@ -120,7 +121,15 @@ const MenuPage = async ({
                           )}
                         </div>
 
-                        <p className="font-medium">{menu.nama_menu}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium">{menu.nama_menu}</p>
+
+                          {menu.is_diskon && (
+                            <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-600">
+                              DISKON
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </td>
 
@@ -146,7 +155,32 @@ const MenuPage = async ({
 
                     {/* Harga */}
                     <td className="px-6 py-4">
-                      Rp. {menu.harga.toLocaleString()}
+                      <div className="flex flex-col">
+                        {menu.is_diskon ? (
+                          <>
+                            <span className="text-sm line-through text-muted-foreground">
+                              Rp. {menu.harga_asli.toLocaleString()}
+                            </span>
+
+                            <span className="text-xs font-medium text-red-600">
+                              -{menu.persentase}%
+                            </span>
+                          </>
+                        ) : (
+                          <span>Rp. {menu.harga.toLocaleString()}</span>
+                        )}
+                      </div>
+                    </td>
+
+                    {/* Harga Diskon */}
+                    <td className="px-6 py-4">
+                      {menu.is_diskon ? (
+                        <span className="font-semibold text-green-600">
+                          Rp. {menu.harga_diskon.toLocaleString()}
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground">-</span>
+                      )}
                     </td>
 
                     {/* Status */}
