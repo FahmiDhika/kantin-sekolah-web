@@ -25,8 +25,8 @@ export default function AddMenuModal() {
     foto: "",
     harga: 0,
     jenis: "",
-    id_stan: 0,
     is_active: true,
+    id_stan: 0,
   });
 
   const TOKEN = getCookie("token");
