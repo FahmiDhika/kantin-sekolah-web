@@ -28,8 +28,6 @@ const DeleteUser = ({ selectedUser }: { selectedUser: IDeleteUser }) => {
 
       const { data } = await drop(url, TOKEN);
 
-      console.log("data yang dikirim : ", data);
-
       if (data?.status) {
         setIsShow(false);
         toast(data?.message, {
