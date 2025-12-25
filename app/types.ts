@@ -65,6 +65,11 @@ export interface IUsers {
   updatedAt: string;
 }
 
+export interface IDeleteUser {
+  id: number;
+  username: string;
+}
+
 export interface IStanLogin {
   id: number;
   nama_stan: string;

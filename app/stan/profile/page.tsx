@@ -5,6 +5,7 @@ import { BASE_API_URL } from "@/global";
 import { IUserLogin } from "@/app/types";
 import ProfileUserClient from "./profileUser";
 import ProfileStanClient from "./profileStan";
+import DeleteUser from "./deleteUser";
 
 const getProfile = async (): Promise<IUserLogin | null> => {
   try {
@@ -42,6 +43,10 @@ const ProfilePage = async () => {
       {profile.role === "ADMIN_STAN" && stan && (
         <ProfileStanClient stan={stan} />
       )}
+
+      <div className="mt-6 border-t pt-4 flex justify-between items-center">
+        <DeleteUser selectedUser={profile} />
+      </div>
     </div>
   );
 };

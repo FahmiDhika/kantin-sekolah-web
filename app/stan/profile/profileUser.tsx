@@ -23,7 +23,7 @@ export default function ProfileUserClient({ profile }: Props) {
       const TOKEN = getCookie("token");
       if (!TOKEN) return toast.error("Token tidak ditemukan");
 
-      const url = `${BASE_API_URL}/user/update/${profile.id}`;
+      const url = `${BASE_API_URL}/user/update`;
 
       const payload: IUpdateUser = {
         username,
