@@ -42,9 +42,15 @@ const LoginPage = () => {
         storeCookie("token", data.token);
         storeCookie("id", data.data.id);
         storeCookie("username", data.data.username);
-        storeCookie("nama_stan", data.data.nama_stan);
-        storeCookie("nama_pemilik", data.data.nama_pemilik);
         storeCookie("role", data.data.role);
+
+        if (data.data.role === "ADMIN_STAN") {
+          storeCookie("nama_stan", data.data.nama_stan);
+          storeCookie("nama_pemilik", data.data.nama_pemilik);
+        } else if (data.data.role === "SISWA") {
+          storeCookie("nama", data.data.nama);
+          storeCookie("foto", data.data.foto);
+        }
 
         const role = data.data.role;
 
@@ -66,7 +72,7 @@ const LoginPage = () => {
         if (role === `ADMIN_STAN`) {
           setTimeout(() => router.replace(`/stan/dashboard`), 2000);
         } else if (role === `SISWA`) {
-          setTimeout(() => router.replace(`/siswa/dashboard`), 2000);
+          setTimeout(() => router.replace(`/siswa/home`), 2000);
         }
       } else {
         toast(data.message, {

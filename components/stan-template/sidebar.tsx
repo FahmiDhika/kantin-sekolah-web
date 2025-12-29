@@ -27,7 +27,7 @@ const Sidebar = ({ children, title, id, buttonList }: SidebarProps) => {
   const router = useRouter();
   const [namaStan, setNamaStan] = useState("");
   const [namaPemilik, setNamaPemilik] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
     setNamaStan(Cookies.get("nama_stan") || "");
@@ -41,6 +41,7 @@ const Sidebar = ({ children, title, id, buttonList }: SidebarProps) => {
     removeCookie("role");
     removeCookie("nama_stan");
     removeCookie("nama_pemilik");
+    removeCookie("nama");
     router.replace("/login");
   };
 
@@ -48,17 +49,17 @@ const Sidebar = ({ children, title, id, buttonList }: SidebarProps) => {
     <section className="w-full h-dvh flex bg-neutral-100 overflow-hidden">
       {/* HAMBURGER (MOBILE) */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsShow(true)}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white shadow rounded-lg"
       >
         <FiMenu size={20} />
       </button>
 
       {/* OVERLAY */}
-      {isOpen && (
+      {isShow && (
         <div
           className="fixed inset-0 bg-black/40 z-30 lg:hidden"
-          onClick={() => setIsOpen(false)}
+          onClick={() => setIsShow(false)}
         />
       )}
 
@@ -67,7 +68,7 @@ const Sidebar = ({ children, title, id, buttonList }: SidebarProps) => {
         className={`fixed lg:static top-0 left-0 z-40
         w-72 h-dvh bg-white flex flex-col justify-between border-r
         transition-transform duration-300
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+        ${isShow ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* TOP */}
         <div className="p-6">
@@ -95,7 +96,7 @@ const Sidebar = ({ children, title, id, buttonList }: SidebarProps) => {
                 key={item.id}
                 {...item}
                 active={item.id === id}
-                onClick={() => setIsOpen(false)} // auto close mobile
+                onClick={() => setIsShow(false)} // auto close mobile
               />
             ))}
           </nav>
