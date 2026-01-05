@@ -1,34 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { BASE_API_URL } from "@/global";
 import { put } from "@/lib/api-bridge";
 import { getCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
-import { IStanLogin } from "@/app/types";
+import { ISiswaLogin } from "@/app/types";
+import { useRouter } from "next/navigation";
 
 interface Props {
-  stan: IStanLogin;
+  siswa: ISiswaLogin;
 }
 
-const ProfileStanClient = ({ stan }: Props) => {
+const ProfileSiswaClient = ({ siswa }: Props) => {
   const [edit, setEdit] = useState(false);
-  const [namaStan, setNamaStan] = useState(stan.nama_stan);
-  const [namaPemilik, setNamaPemilik] = useState(stan.nama_pemilik);
-  const [telepon, setTelepon] = useState(stan.telepon);
+  const [nama, setNama] = useState(siswa.nama);
+  const [alamat, setAlamat] = useState(siswa.alamat);
+  const [telepon, setTelepon] = useState(siswa.telepon);
 
-  const handleSubmit = async () => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       const TOKEN = getCookie("token");
       if (!TOKEN) return toast.error("Token tidak ditemukan");
 
-      const url = `${BASE_API_URL}/user/updateStan/${stan.id}`;
+      const url = `${BASE_API_URL}/user/updateSiswa`;
 
-      const payload = {
-        nama_stan: namaStan,
-        nama_pemilik: namaPemilik,
-        telepon,
-      };
+      const payload = new FormData();
+      payload.append("nama", nama);
+      payload.append("alamat", alamat);
+      payload.append("telepon", telepon);
 
       const { data } = await put(url, payload, TOKEN);
 
@@ -39,6 +42,7 @@ const ProfileStanClient = ({ stan }: Props) => {
           type: "success",
         });
         setEdit(false);
+        setTimeout(() => router.refresh(), 1000);
       } else {
         toast(data?.message, {
           hideProgressBar: false,
@@ -57,34 +61,21 @@ const ProfileStanClient = ({ stan }: Props) => {
   };
 
   return (
-    <div className="bg-white rounded-xl border shadow p-6 space-y-6">
-      <h2 className="text-lg font-semibold">Data Stan</h2>
+    <div className="space-y-6 py-6">
+      <h1 className="text-xl font-semibold mb-2">Data Siswa</h1>
 
-      {/* Nama Stan */}
       <div>
-        <label className="mb-1 block text-sm font-medium">Nama Stan</label>
+        <label className="mb-1 block text-sm font-medium">Nama Siswa</label>
         <input
           disabled={!edit}
-          value={namaStan}
-          onChange={(e) => setNamaStan(e.target.value)}
+          value={nama}
+          onChange={(e) => setNama(e.target.value)}
           className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-primary disabled:bg-gray-100"
         />
       </div>
 
-      {/* Nama Pemilik */}
       <div>
-        <label className="mb-1 block text-sm font-medium">Nama Pemilik</label>
-        <input
-          disabled={!edit}
-          value={namaPemilik}
-          onChange={(e) => setNamaPemilik(e.target.value)}
-          className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-primary disabled:bg-gray-100"
-        />
-      </div>
-
-      {/* Telepon */}
-      <div>
-        <label className="mb-1 block text-sm font-medium">Nomor Telepon</label>
+        <label className="mb-1 block text-sm font-medium">Telepon Siswa</label>
         <input
           disabled={!edit}
           value={telepon}
@@ -93,7 +84,16 @@ const ProfileStanClient = ({ stan }: Props) => {
         />
       </div>
 
-      {/* Action */}
+      <div>
+        <label className="mb-1 block text-sm font-medium">Alamat Siswa</label>
+        <input
+          disabled={!edit}
+          value={alamat}
+          onChange={(e) => setAlamat(e.target.value)}
+          className="w-full rounded-lg border px-3 py-2 focus:ring-2 focus:ring-primary disabled:bg-gray-100"
+        />
+      </div>
+
       <div className="flex justify-between border-t pt-4">
         {!edit ? (
           <button
@@ -123,4 +123,4 @@ const ProfileStanClient = ({ stan }: Props) => {
   );
 };
 
-export default ProfileStanClient;
+export default ProfileSiswaClient;

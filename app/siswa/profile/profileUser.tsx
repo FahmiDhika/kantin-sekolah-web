@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { BASE_API_URL } from "@/global";
 import { put } from "@/lib/api-bridge";
 import { getCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { IUpdateUser, IUserLogin } from "@/app/types";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 
 interface Props {
@@ -18,7 +19,10 @@ const ProfileUserClient = ({ profile }: Props) => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = async () => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       const TOKEN = getCookie("token");
       if (!TOKEN) return toast.error("Token tidak ditemukan");
@@ -42,11 +46,12 @@ const ProfileUserClient = ({ profile }: Props) => {
       if (data?.status) {
         toast(data?.message, {
           hideProgressBar: false,
-          containerId: "toastProfile",
-          type: "success",
+          containerId: `toastProfile`,
+          type: `success`,
         });
         setEdit(false);
         setPassword("");
+        setTimeout(() => router.refresh(), 1000);
       } else {
         toast(data?.message, {
           hideProgressBar: false,
@@ -65,10 +70,9 @@ const ProfileUserClient = ({ profile }: Props) => {
   };
 
   return (
-    <div className="bg-white rounded-xl border shadow p-6 space-y-6">
-      <h2 className="text-lg font-semibold">Informasi Akun</h2>
+    <div className="space-y-6 py-6">
+      <h1 className="text-xl font-semibold mb-2">Informasi Akun</h1>
 
-      {/* Username */}
       <div>
         <label className="mb-1 block text-sm font-medium">Username</label>
         <input
@@ -79,7 +83,6 @@ const ProfileUserClient = ({ profile }: Props) => {
         />
       </div>
 
-      {/* Password */}
       {edit && (
         <div>
           <label className="mb-1 block text-sm font-medium">
@@ -104,7 +107,6 @@ const ProfileUserClient = ({ profile }: Props) => {
         </div>
       )}
 
-      {/* Action */}
       <div className="flex justify-between border-t pt-4">
         {!edit ? (
           <button

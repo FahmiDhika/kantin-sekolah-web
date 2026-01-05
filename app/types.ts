@@ -42,14 +42,7 @@ export interface IUserLogin {
   role: "ADMIN_STAN" | "SISWA";
 
   stan: IStanLogin[];
-  siswa: {
-    id: number;
-    uuid: string;
-    nama: string;
-    alamat: string;
-    telepon: string;
-    foto: string;
-  }[];
+  siswa: ISiswaLogin[];
 }
 
 export interface IUsers {
@@ -75,6 +68,15 @@ export interface IStanLogin {
   nama_stan: string;
   nama_pemilik: string;
   telepon: string;
+}
+
+export interface ISiswaLogin {
+  id: number;
+  uuid: string;
+  nama: string;
+  alamat: string;
+  telepon: string;
+  foto: string;
 }
 
 export interface IStan {
