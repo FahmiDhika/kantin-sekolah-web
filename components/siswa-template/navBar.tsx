@@ -2,12 +2,11 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { getCookie } from "@/lib/client-cookie";
-import { BASE_SUPABASE_URL } from "@/global";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import MenuButton from "./button";
 import logo from "@/public/Logo.svg";
-import avatarDefault from "@/public/avatar-default.svg";
+import UserDropdown from "./dropdownButton";
 
 interface ButtonType {
   id: string;
@@ -26,11 +25,9 @@ interface SidebarProps {
 const NavBar = ({ children, title, id, buttonList }: SidebarProps) => {
   const [nama, setNama] = useState("");
   const foto = getCookie("foto");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setNama(Cookies.get("nama") || "");
-    setMounted(true);
   }, []);
 
   return (
@@ -51,25 +48,7 @@ const NavBar = ({ children, title, id, buttonList }: SidebarProps) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 lg:gap-3">
-          <h1 className="text-sm lg:text-lg font-bold border-b border-orange-300 px-1 lg:px-2 truncate max-w-[120px] lg:max-w-none">
-            {nama}
-          </h1>
-
-          {mounted && (
-            <Image
-              src={
-                foto
-                  ? `${BASE_SUPABASE_URL}/storage/v1/object/public/siswa/${foto}`
-                  : avatarDefault
-              }
-              alt={avatarDefault}
-              width={32}
-              height={32}
-              className="object-cover aspect-square rounded-full border lg:w-10 lg:h-10 truncate"
-            />
-          )}
-        </div>
+        <UserDropdown nama={nama} foto={foto} />
       </header>
 
       <main className="w-full flex-1 overflow-auto px-2 py-4 lg:px-16 pb-24">
