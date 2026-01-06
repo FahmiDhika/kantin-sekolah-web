@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 
 // import icon
-import { HiOutlineHome, HiOutlineUser } from "react-icons/hi";
+import { HiOutlineHome, HiOutlineUser,} from "react-icons/hi";
+import { LuStore } from "react-icons/lu";
 
 interface IPropButton {
   id: string;
@@ -16,6 +17,12 @@ const buttonList: IPropButton[] = [
     path: `/siswa/home`,
     label: `Home`,
     icon: <HiOutlineHome />,
+  },
+  {
+    id: `stan`,
+    path: `/siswa/stan`,
+    label: `Stan`,
+    icon: <LuStore />,
   },
   {
     id: `profile`,

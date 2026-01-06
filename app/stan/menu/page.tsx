@@ -13,7 +13,7 @@ import UpdateMenuModal from "./updateMenu";
 import ActiveMenuModal from "./activeMenu";
 import FilterStatus from "@/components/active-menu";
 
-export const getMenu = async (
+const getMenu = async (
   search: string,
   jenis: string,
   is_active: string
