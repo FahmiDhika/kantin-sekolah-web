@@ -2,7 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-function FilterJenis() {
+interface Props {
+  basePath: string;
+}
+
+function FilterJenis({ basePath }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -21,7 +25,7 @@ function FilterJenis() {
 
     if (jenis !== "all") params.set("jenis", jenis);
 
-    router.push(`/stan/menu?${params.toString()}`);
+    router.push(`${basePath}?${params.toString()}`);
   };
 
   return (

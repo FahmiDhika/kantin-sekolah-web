@@ -6,7 +6,7 @@ import { useState, FormEvent } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { BASE_API_URL } from "@/global";
-import { getCookie } from "@/lib/client-cookie";
+import { getCookie, storeCookie } from "@/lib/client-cookie";
 import { post } from "@/lib/api-bridge";
 
 const FormStanPage = () => {
@@ -55,6 +55,9 @@ const FormStanPage = () => {
         nama_stan: namaStan,
         telepon: telepon,
       };
+
+      storeCookie("nama_stan", namaStan);
+      storeCookie("nama_pemilik", namaPemilik);
 
       const { data } = await post(url, body, token);
 

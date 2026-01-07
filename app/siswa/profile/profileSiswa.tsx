@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { BASE_API_URL } from "@/global";
 import { put } from "@/lib/api-bridge";
-import { getCookie } from "@/lib/client-cookie";
+import { getCookie, storeCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { ISiswaLogin } from "@/app/types";
 import { useRouter } from "next/navigation";
@@ -43,6 +43,7 @@ const ProfileSiswaClient = ({ siswa }: Props) => {
         });
         setEdit(false);
         setTimeout(() => router.refresh(), 1000);
+        storeCookie("nama", nama);
       } else {
         toast(data?.message, {
           hideProgressBar: false,

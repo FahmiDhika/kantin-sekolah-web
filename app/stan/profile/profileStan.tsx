@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { BASE_API_URL } from "@/global";
 import { put } from "@/lib/api-bridge";
-import { getCookie } from "@/lib/client-cookie";
+import { getCookie, storeCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { IStanLogin } from "@/app/types";
 
@@ -22,7 +22,7 @@ const ProfileStanClient = ({ stan }: Props) => {
       const TOKEN = getCookie("token");
       if (!TOKEN) return toast.error("Token tidak ditemukan");
 
-      const url = `${BASE_API_URL}/user/updateStan/${stan.id}`;
+      const url = `${BASE_API_URL}/user/updateStan`;
 
       const payload = {
         nama_stan: namaStan,
@@ -39,6 +39,8 @@ const ProfileStanClient = ({ stan }: Props) => {
           type: "success",
         });
         setEdit(false);
+        storeCookie("nama_pemilik", namaPemilik);
+        storeCookie("nama_stan", namaStan);
       } else {
         toast(data?.message, {
           hideProgressBar: false,

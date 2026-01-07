@@ -46,7 +46,7 @@ const Sidebar = ({ children, title, id, buttonList }: SidebarProps) => {
   };
 
   return (
-    <section className="w-full h-dvh flex bg-neutral-100 overflow-hidden">
+    <section className="w-full h-dvh flex bg-neutral-100 overflow-hidden background">
       {/* HAMBURGER (MOBILE) */}
       <button
         onClick={() => setIsShow(true)}

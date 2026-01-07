@@ -17,6 +17,11 @@ export interface IMenu {
     nama_diskon: string;
     persentase: number;
   } | null;
+
+  stan?: {
+    id: number;
+    nama_stan: string;
+  };
 }
 
 export interface IMenuDiskon {

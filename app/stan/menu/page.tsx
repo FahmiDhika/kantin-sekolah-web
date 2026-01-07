@@ -72,8 +72,8 @@ const MenuPage = async ({
           <SearchInput url="/stan/menu" search={search} />
         </div>
 
-        <FilterJenis />
-        <FilterStatus />
+        <FilterJenis basePath="/stan/menu" />
+        <FilterStatus basePath="/stan/menu" />
       </div>
 
       {/* Table */}

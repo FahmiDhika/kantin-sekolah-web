@@ -2,7 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-function FilterStatus() {
+interface Props {
+  basePath: string;
+}
+
+function FilterStatus({ basePath }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -27,7 +31,7 @@ function FilterStatus() {
       params.set("is_active", is_active);
     }
 
-    router.push(`/stan/menu?${params.toString()}`);
+    router.push(`${basePath}?${params.toString()}`);
   };
 
   return (

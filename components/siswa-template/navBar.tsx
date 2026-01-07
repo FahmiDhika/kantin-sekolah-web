@@ -31,7 +31,7 @@ const NavBar = ({ children, title, id, buttonList }: SidebarProps) => {
   }, []);
 
   return (
-    <section className="w-full h-dvh flex flex-col items-center bg-neutral-100 px-4 lg:px-32">
+    <section className="w-full h-dvh flex flex-col items-center bg-neutral-100 px-4 lg:px-32 background">
       <header className="w-full sticky top-0 z-10 px-4 py-3 lg:px-16 lg:py-4 shadow bg-white rounded-b-2xl lg:rounded-b-3xl flex items-center justify-between">
         <div className="flex items-center gap-3 lg:gap-5">
           <Image

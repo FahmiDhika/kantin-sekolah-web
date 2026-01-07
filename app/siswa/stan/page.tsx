@@ -4,6 +4,7 @@ import { get } from "@/lib/api-bridge";
 import { getCookies } from "@/lib/server-cookie";
 import { Search } from "lucide-react";
 import SearchInput from "./search";
+import Link from "next/link";
 
 const getStan = async (search: string): Promise<IStan[]> => {
   try {
@@ -79,9 +80,15 @@ const StanPage = async ({
 
             {/* Action */}
             <div className="mt-4">
-              <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg text-sm transition">
-                Lihat Menu
-              </button>
+              <Link
+                href={`/siswa/stan/${item.id}-${item.nama_stan
+                  .toLowerCase()
+                  .replace(/\s+/g, "-")}`}
+              >
+                <button className="w-full bg-orange-500 text-white py-2 rounded-lg">
+                  Lihat Menu
+                </button>
+              </Link>
             </div>
           </div>
         ))}

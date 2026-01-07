@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { BASE_API_URL } from "@/global";
 import { put } from "@/lib/api-bridge";
-import { getCookie } from "@/lib/client-cookie";
+import { getCookie, storeCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { IUpdateUser, IUserLogin } from "@/app/types";
 import { Eye, EyeOff } from "lucide-react";
@@ -47,6 +47,7 @@ const ProfileUserClient = ({ profile }: Props) => {
         });
         setEdit(false);
         setPassword("");
+        storeCookie("username", username);
       } else {
         toast(data?.message, {
           hideProgressBar: false,
