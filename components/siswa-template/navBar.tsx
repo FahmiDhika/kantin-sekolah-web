@@ -56,7 +56,7 @@ const NavBar = ({ children, title, id, buttonList }: SidebarProps) => {
       </main>
 
       <nav className="fixed bottom-0 left-0 right-0 z-20 px-4 lg:px-32">
-        <div className="flex justify-around items-center bg-white py-2 rounded-t-2xl shadow">
+        <div className="grid grid-cols-5 bg-white py-2 rounded-t-2xl shadow">
           {buttonList.map((item) => (
             <MenuButton key={item.id} {...item} active={item.id === id} />
           ))}

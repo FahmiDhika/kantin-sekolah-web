@@ -7,7 +7,6 @@ interface ButtonProps {
   label?: string;
   path: string;
   active?: boolean;
-  collapsed?: boolean;
   onClick?: () => void;
 }
 
@@ -16,41 +15,32 @@ const MenuButton = ({
   label,
   path,
   active = false,
-  collapsed = false,
   onClick,
 }: ButtonProps) => {
   return (
     <Link
       href={path}
       onClick={onClick}
-      className={clsx(
-        "flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-xl transition-all",
-        active
-          ? "text-blue-600 bg-yellow-400"
-          : "text-gray-500 hover:text-blue-500"
-      )}
+      className="flex items-center justify-center w-full h-full"
     >
       <div
-        className={`relative flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all duration-200 ${
+        className={clsx(
+          "relative flex flex-col items-center justify-center overflow-hidden",
+          "px-4 py-3 rounded-2xl transition-all duration-200",
           active
             ? "bg-yellow-400 text-yellow-900 shadow-md"
-            : "text-neutral-500 hover:bg-yellow-100 hover:text-yellow-700"
-        }`}
+            : "text-gray-500 hover:bg-yellow-100 hover:text-yellow-700"
+        )}
       >
-        {/* ACTIVE INDICATOR */}
         {active && (
-          <span className="absolute -top-1 w-8 h-1 bg-yellow-700 rounded-full" />
+          <span className="absolute top-0 w-8 h-1 bg-yellow-700 rounded-b-full" />
         )}
 
-        {/* ICON */}
-        <div className="text-xl">{icon}</div>
+        <div className="text-2xl">{icon}</div>
 
-        {/* LABEL */}
-        {!collapsed && (
-          <span className="text-[11px] font-semibold leading-none">
-            {label}
-          </span>
-        )}
+        <span className="hidden sm:block text-[11px] font-semibold mt-0.5">
+          {label}
+        </span>
       </div>
     </Link>
   );
