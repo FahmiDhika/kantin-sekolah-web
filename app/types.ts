@@ -121,3 +121,12 @@ export interface ICart {
   id_stan: number;
   items: ICartItem[];
 }
+
+export interface IOrderRequest {
+  id_stan: number;
+  items: {
+    id_menu: number;
+    jumlah: number;
+    catatan: string;
+  }[];
+}

@@ -34,9 +34,9 @@ export const get = async (url: string, token: string) => {
   }
 };
 
-export const post = async (
+export const post = async <T extends object | string | FormData>(
   url: string,
-  data: Record<string, unknown> | string | FormData,
+  data: T,
   token: string
 ) => {
   try {

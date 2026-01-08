@@ -1,6 +1,7 @@
 import SiswaTemplate from "@/components/siswa-template";
 import { Metadata } from "next";
 import buttonList from "../buttonList";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Keranjang | Siswa",
@@ -14,6 +15,7 @@ export default function RegisterLayout({
 }) {
   return (
     <SiswaTemplate title="Keranjang" id="cart" buttonList={buttonList}>
+      <ToastContainer containerId={`toastCart`} />
       {children}
     </SiswaTemplate>
   );
