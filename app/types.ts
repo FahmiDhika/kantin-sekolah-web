@@ -108,3 +108,16 @@ export interface IUpdateUser {
   username: string;
   password?: string;
 }
+
+export interface ICartItem {
+  id_menu: number;
+  nama_menu: string;
+  harga: number;
+  quantity: number;
+  catatan?: string;
+}
+
+export interface ICart {
+  id_stan: number;
+  items: ICartItem[];
+}

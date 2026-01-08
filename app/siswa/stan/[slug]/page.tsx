@@ -7,6 +7,7 @@ import SearchInput from "./search";
 import { Search } from "lucide-react";
 import FilterJenis from "@/components/filter-menu";
 import FilterStatus from "@/components/active-menu";
+import AddToCart from "./addToCart";
 
 interface Props {
   params: {
@@ -188,17 +189,7 @@ const DetailKantin = async ({ params, searchParams }: Props) => {
                   )}
                 </div>
 
-                <div className="mt-3 flex items-center justify-end gap-5">
-                  <button className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg bg-red-100 text-red-600 text-lg font-bold">
-                    −
-                  </button>
-
-                  <span className="font-semibold text-sm lg:text-base">0</span>
-
-                  <button className="w-8 h-8 lg:w-10 lg:h-10 rounded-lg bg-orange-500 text-white text-lg font-bold">
-                    +
-                  </button>
-                </div>
+                <AddToCart key={item.id} menu={item} />
               </div>
             </div>
           ))}
