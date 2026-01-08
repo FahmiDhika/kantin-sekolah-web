@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
 
 // import icon
-import { HiOutlineHome, HiOutlineUser,} from "react-icons/hi";
+import { HiOutlineHome, HiOutlineUser } from "react-icons/hi";
 import { LuStore } from "react-icons/lu";
 import { IoCartOutline } from "react-icons/io5";
+import { CgNotes } from "react-icons/cg";
 
 interface IPropButton {
   id: string;
@@ -30,6 +31,12 @@ const buttonList: IPropButton[] = [
     path: `/siswa/cart`,
     label: `Keranjang`,
     icon: <IoCartOutline />,
+  },
+  {
+    id: `history`,
+    path: `/siswa/history`,
+    label: `Pesanan`,
+    icon: <CgNotes />,
   },
   {
     id: `profile`,

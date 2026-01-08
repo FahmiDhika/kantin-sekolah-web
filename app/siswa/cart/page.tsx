@@ -40,6 +40,43 @@ const CartPage = () => {
     )}; path=/`;
   };
 
+  const syncCart = (updatedCart: ICart | null) => {
+    if (!updatedCart || updatedCart.items.length === 0) {
+      removeCookie("cart");
+      setCart(null);
+      return;
+    }
+
+    setCart(updatedCart);
+    document.cookie = `cart=${encodeURIComponent(
+      JSON.stringify(updatedCart)
+    )}; path=/`;
+  };
+
+  const updateQuantity = (id_menu: number, newQty: number) => {
+    if (!cart) return;
+
+    const updatedItems = cart.items
+      .map((item) =>
+        item.id_menu === id_menu ? { ...item, quantity: newQty } : item
+      )
+      .filter((item) => item.quantity > 0); // auto hapus kalau 0
+
+    syncCart({ ...cart, items: updatedItems });
+  };
+
+  const removeItem = (id_menu: number) => {
+    if (!cart) return;
+
+    const updatedItems = cart.items.filter((item) => item.id_menu !== id_menu);
+
+    syncCart({ ...cart, items: updatedItems });
+  };
+
+  const clearCart = () => {
+    syncCart(null);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -130,14 +167,45 @@ const CartPage = () => {
                 </p>
               </div>
 
-              <div className="text-right">
-                <p className="font-semibold">x{item.quantity}</p>
+              <div className="text-right space-y-1">
                 <p className="text-sm text-gray-600">
                   Rp {(item.harga * item.quantity).toLocaleString()}
                 </p>
+
+                {/* QUANTITY CONTROL */}
+                <div className="flex items-center justify-end gap-2">
+                  <button
+                    onClick={() =>
+                      updateQuantity(item.id_menu, item.quantity - 1)
+                    }
+                    className="h-7 w-7 rounded-lg bg-red-100 text-red-600 font-bold"
+                  >
+                    −
+                  </button>
+
+                  <span className="min-w-5 text-center font-semibold">
+                    {item.quantity}
+                  </span>
+
+                  <button
+                    onClick={() =>
+                      updateQuantity(item.id_menu, item.quantity + 1)
+                    }
+                    className="h-7 w-7 rounded-lg bg-orange-500 text-white font-bold"
+                  >
+                    +
+                  </button>
+
+                  {/* REMOVE ITEM */}
+                  <button
+                    onClick={() => removeItem(item.id_menu)}
+                    className="ml-2 text-xs text-red-500 hover:underline"
+                  >
+                    Hapus
+                  </button>
+                </div>
               </div>
             </div>
-
             <textarea
               placeholder="Catatan untuk menu ini (opsional)"
               value={item.catatan ?? ""}
@@ -156,12 +224,21 @@ const CartPage = () => {
         </span>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        className="w-full rounded-xl bg-orange-500 py-3 font-semibold text-white hover:bg-orange-600"
-      >
-        Pesan Sekarang
-      </button>
+      <div className="flex gap-3">
+        <button
+          onClick={clearCart}
+          className="w-1/2 rounded-xl border border-red-400 py-3 font-semibold text-red-500 hover:bg-red-50"
+        >
+          Hapus Semua
+        </button>
+
+        <button
+          onClick={handleSubmit}
+          className="w-1/2 rounded-xl bg-orange-500 py-3 font-semibold text-white hover:bg-orange-600"
+        >
+          Pesan Sekarang
+        </button>
+      </div>
     </div>
   );
 };
