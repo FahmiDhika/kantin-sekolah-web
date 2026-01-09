@@ -2,8 +2,7 @@ import { IStan } from "@/app/types";
 import { BASE_API_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import { getCookies } from "@/lib/server-cookie";
-import { Search } from "lucide-react";
-import SearchInput from "./search";
+import SearchInput from "@/components/search";
 import Link from "next/link";
 
 const getStan = async (search: string): Promise<IStan[]> => {
@@ -43,13 +42,11 @@ const StanPage = async ({
       </p>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 rounded-2xl bg-white p-4 shadow">
-        <div className="relative flex-1">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-            size={18}
-          />
-          <SearchInput url="/siswa/stan" search={search} />
-        </div>
+        <SearchInput
+          url="/siswa/stan"
+          search={search}
+          placeholder="Cari nama kantin..."
+        />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

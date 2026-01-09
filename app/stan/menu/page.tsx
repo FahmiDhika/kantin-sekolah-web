@@ -1,11 +1,10 @@
 "use server";
 
-import { Search } from "lucide-react";
-import SearchInput from "./search";
 import { IMenu } from "@/app/types";
 import { getCookies } from "@/lib/server-cookie";
 import { BASE_API_URL, BASE_SUPABASE_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
+import SearchInput from "@/components/search";
 import Image from "next/image";
 import FilterJenis from "@/components/filter-menu";
 import AddMenuModal from "./addMenu";
@@ -64,13 +63,12 @@ const MenuPage = async ({
 
       {/* Search & Filter */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 rounded-2xl bg-white p-4 shadow">
-        <div className="relative flex-1">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-            size={18}
-          />
-          <SearchInput url="/stan/menu" search={search} />
-        </div>
+        <SearchInput
+          url={`/stan/menu`}
+          search={search}
+          placeholder="Cari menu..."
+          keepParams={["jenis", "status"]}
+        />
 
         <FilterJenis basePath="/stan/menu" />
         <FilterStatus basePath="/stan/menu" />

@@ -3,8 +3,7 @@ import { BASE_API_URL, BASE_SUPABASE_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import { getCookies } from "@/lib/server-cookie";
 import Image from "next/image";
-import SearchInput from "./search";
-import { Search } from "lucide-react";
+import SearchInput from "@/components/search";
 import FilterJenis from "@/components/filter-menu";
 import FilterStatus from "@/components/active-menu";
 import AddToCart from "./addToCart";
@@ -96,13 +95,12 @@ const DetailKantin = async ({ params, searchParams }: Props) => {
       <p>Anda bisa memesan menu makanan dari kantin {stan.nama_stan}</p>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 rounded-2xl bg-white p-4 shadow">
-        <div className="relative flex-1">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-            size={18}
-          />
-          <SearchInput url={`/siswa/stan/${params.slug}`} search={search} />
-        </div>
+        <SearchInput
+          url={`/siswa/stan/${params.slug}`}
+          search={search}
+          placeholder="Cari menu..."
+          keepParams={["jenis", "status"]}
+        />
 
         <FilterJenis basePath={`/siswa/stan/${params.slug}`} />
         <FilterStatus basePath={`/siswa/stan/${params.slug}`} />

@@ -2,11 +2,10 @@ import { IHistoryQuery, IHistoryTransaksi } from "@/app/types";
 import { BASE_API_URL, BASE_SUPABASE_URL } from "@/global";
 import { get } from "@/lib/api-bridge";
 import { getCookies } from "@/lib/server-cookie";
-import { Search } from "lucide-react";
-import Image from "next/image";
 import { toast } from "react-toastify";
-import SearchInput from "./search";
+import Image from "next/image";
 import FilterTanggal from "./filterTanggal";
+import SearchInput from "@/components/search";
 
 const getHistory = async (
   params?: IHistoryQuery
@@ -66,16 +65,12 @@ const HistoryPage = async ({
       <h1 className="text-lg font-bold">Riwayat Pesanan</h1>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 rounded-2xl bg-white p-4 shadow">
-        <div className="relative flex-1">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-            size={18}
-          />
-          <SearchInput
-            url="/siswa/history"
-            search={searchParams.search?.toString() ?? ""}
-          />
-        </div>
+        <SearchInput
+          url="/siswa/history"
+          search={searchParams.search?.toString() ?? ""}
+          placeholder={"Cari riwayat pesanan dari nama menu..."}
+          keepParams={["tanggal", "bulan", "tahun"]}
+        />
 
         <FilterTanggal url="/siswa/history" />
       </div>

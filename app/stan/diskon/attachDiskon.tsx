@@ -8,6 +8,7 @@ import { BASE_API_URL } from "@/global";
 import { get, post } from "@/lib/api-bridge";
 import { getCookie } from "@/lib/client-cookie";
 import { IMenu } from "@/app/types";
+import { Search } from "lucide-react";
 
 export const getMenu = async (
   search: string,
@@ -128,7 +129,6 @@ const AttachDiskon = ({
 
   return (
     <>
-      {/* Trigger */}
       <button
         onClick={() => setIsShow(true)}
         className="rounded-md bg-white px-3 py-1 text-sm font-medium text-green-700 shadow-sm hover:bg-green-50"
@@ -136,7 +136,6 @@ const AttachDiskon = ({
         Pasang ke Menu
       </button>
 
-      {/* Modal */}
       <Modal
         open={isShow}
         onClose={() => setIsShow(false)}
@@ -148,21 +147,25 @@ const AttachDiskon = ({
             Menu yang sudah memiliki diskon atau tidak dijual tidak bisa dipilih
           </p>
 
-          {/* Search */}
-          <input
-            type="text"
-            placeholder="Cari menu..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-md border px-3 py-2 text-sm"
-          />
+          <div className="relative flex-1">
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+              size={18}
+            />
+            <input
+              type="text"
+              placeholder="Cari menu..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-xl border px-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
 
-          {/* Filter */}
           <div className="flex gap-2">
             <select
               value={jenis}
               onChange={(e) => setJenis(e.target.value)}
-              className="rounded-md border px-2 py-1 text-sm"
+              className="w-full sm:w-auto rounded-xl border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">Semua Jenis</option>
               <option value="MAKANAN">Makanan</option>
@@ -172,7 +175,7 @@ const AttachDiskon = ({
             <select
               value={isActive}
               onChange={(e) => setIsActive(e.target.value)}
-              className="rounded-md border px-2 py-1 text-sm"
+              className="w-full sm:w-auto rounded-xl border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="all">Semua Status</option>
               <option value="true">Tersedia</option>
@@ -180,7 +183,6 @@ const AttachDiskon = ({
             </select>
           </div>
 
-          {/* List Menu */}
           <div className="max-h-64 overflow-y-auto rounded-md border p-2 space-y-2">
             {loading ? (
               <p className="text-sm text-muted-foreground">Memuat menu...</p>
@@ -254,7 +256,6 @@ const AttachDiskon = ({
             )}
           </div>
 
-          {/* Action */}
           <div className="mt-6 flex justify-between border-t pt-4">
             {/* Batal */}
             <button
@@ -265,7 +266,6 @@ const AttachDiskon = ({
               Batal
             </button>
 
-            {/* Simpan */}
             <button
               type="submit"
               className={`rounded-lg px-6 py-2 font-semibold text-white
