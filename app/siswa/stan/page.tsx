@@ -42,12 +42,14 @@ const StanPage = async ({
         Halaman ini menampilkan semua stan yang sedang aktif
       </p>
 
-      <div className="relative flex-1">
-        <Search
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-          size={18}
-        />
-        <SearchInput url="/siswa/stan" search={search} />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 rounded-2xl bg-white p-4 shadow">
+        <div className="relative flex-1">
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+            size={18}
+          />
+          <SearchInput url="/siswa/stan" search={search} />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

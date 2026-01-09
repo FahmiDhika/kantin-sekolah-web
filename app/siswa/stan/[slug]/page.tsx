@@ -67,7 +67,10 @@ const getMenu = async (
 
     const { data } = await get(url, TOKEN);
 
-    return data?.status ? data.data : [];
+    let result: IMenu[] = [];
+    if (data?.status) result = [...data.data];
+
+    return result;
   } catch (error) {
     console.log(error);
     return [];

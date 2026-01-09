@@ -130,3 +130,33 @@ export interface IOrderRequest {
     catatan: string;
   }[];
 }
+
+export interface IDetailTransaksi {
+  id: number;
+  jumlah: number;
+  catatan: string;
+  harga_total: string;
+  id_transaksi: number;
+  id_menu: number;
+  menu: IMenu;
+}
+
+export interface IHistoryTransaksi {
+  id: number;
+  uuid: string;
+  tanggal: string;
+  status: string;
+  id_stan: number;
+  id_siswa: number;
+  stan: IStan;
+  detail_transaksi: IDetailTransaksi[];
+}
+
+// app/types.ts
+export interface IHistoryQuery {
+  search?: string;
+  tanggal?: string;
+  bulan?: string;
+  tahun?: string;
+  status?: string;
+}

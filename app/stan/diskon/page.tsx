@@ -90,7 +90,6 @@ const DiskonPage = async ({
 
   return (
     <section className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">
           Kelola diskon yang tersedia di stan anda.
@@ -99,7 +98,6 @@ const DiskonPage = async ({
         <AddDiskonModal />
       </div>
 
-      {/* Diskon Aktif */}
       <div className="rounded-2xl bg-white p-4 shadow">
         <h2 className="mb-3 text-sm font-semibold">Diskon Aktif Saat Ini</h2>
 
@@ -114,7 +112,6 @@ const DiskonPage = async ({
                 key={d.id}
                 className="flex items-center justify-between rounded-xl px-4 py-2.5 bg-green-100"
               >
-                {/* Info */}
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-medium truncate">
                     {d.nama_diskon}
@@ -136,7 +133,6 @@ const DiskonPage = async ({
         )}
       </div>
 
-      {/* Filter Tanggal */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 rounded-2xl bg-white p-4 shadow">
         <form className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
           <input
@@ -162,7 +158,6 @@ const DiskonPage = async ({
         </form>
       </div>
 
-      {/* Table */}
       <div className="rounded-2xl bg-white shadow">
         <div className="overflow-x-auto">
           <table className="min-w-[900px] w-full border-collapse text-sm">
@@ -190,28 +185,23 @@ const DiskonPage = async ({
               ) : (
                 diskon.map((diskon, index) => (
                   <tr key={diskon.id} className="border-t">
-                    {/* No */}
                     <td className="px-6 py-4">{index + 1}</td>
 
-                    {/* Nama Diskon */}
                     <td className="px-6 py-4 font-medium">
                       {diskon.nama_diskon}
                     </td>
 
-                    {/* Persentase */}
                     <td className="px-6 py-4">
                       <span className="rounded-full bg-orange-100 px-3 py-1 text-sm font-medium text-orange-700">
                         {diskon.persentase}%
                       </span>
                     </td>
 
-                    {/* Periode */}
                     <td className="px-6 py-4 text-sm text-muted-foreground">
                       {formatDate(diskon.tanggal_awal)} –{" "}
                       {formatDate(diskon.tanggal_akhir)}
                     </td>
 
-                    {/* Menu */}
                     <td className="px-6 py-4 max-w-xs">
                       {diskon.menu_diskon?.length ? (
                         <ul className="space-y-1 text-sm text-muted-foreground">
