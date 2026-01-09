@@ -7,6 +7,7 @@ import { getCookie, storeCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { IUpdateUser, IUserLogin } from "@/app/types";
 import { Eye, EyeOff } from "lucide-react";
+import { CancelButton, SubmitButton } from "@/components/button";
 
 interface Props {
   profile: IUserLogin;
@@ -116,21 +117,15 @@ const ProfileUserClient = ({ profile }: Props) => {
           </button>
         ) : (
           <>
-            <button
+            <CancelButton
               onClick={() => {
                 setEdit(false);
                 setPassword("");
               }}
-              className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-50"
-            >
-              Batal
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="rounded-lg bg-orange-500 px-6 py-2 font-semibold text-white hover:bg-orange-600"
-            >
-              Simpan
-            </button>
+              type="button"
+            />
+
+            <SubmitButton onClick={handleSubmit} type="submit" label="Simpan" />
           </>
         )}
       </div>

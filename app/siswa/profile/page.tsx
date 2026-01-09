@@ -41,7 +41,7 @@ const ProfilePage = async () => {
   const siswa = profile.siswa?.[0];
 
   return (
-    <section className="flex flex-col justify-center items-center bg-gray-100 gap-5">
+    <section className="flex flex-col justify-center items-center gap-5">
       <div className="w-full max-w-3xl bg-white shadow rounded-xl p-6">
         <div className="flex flex-col gap-5 items-center justify-center">
           <Image

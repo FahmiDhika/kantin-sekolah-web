@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import Image from "next/image";
+import { CancelButton, SubmitButton } from "@/components/button";
 
 export default function AddMenuModal() {
   const [isShow, setIsShow] = useState(false);
@@ -108,7 +109,6 @@ export default function AddMenuModal() {
 
   return (
     <>
-      {/* Trigger Button */}
       <button
         onClick={openModal}
         className="flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 text-sm font-medium text-white shadow hover:bg-orange-600"
@@ -117,10 +117,8 @@ export default function AddMenuModal() {
         Tambah Menu
       </button>
 
-      {/* Modal */}
       <Modal open={isShow} onClose={closeModal} title="Tambah Menu">
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-          {/* Nama Menu */}
           <div>
             <label className="mb-1 block text-sm font-medium">
               Nama Menu <span className="text-red-500">*</span>
@@ -133,7 +131,6 @@ export default function AddMenuModal() {
             />
           </div>
 
-          {/* Harga */}
           <div>
             <label className="mb-1 block text-sm font-medium">
               Harga <span className="text-red-500">*</span>
@@ -154,7 +151,6 @@ export default function AddMenuModal() {
             </div>
           </div>
 
-          {/* Jenis */}
           <div>
             <label className="mb-1 block text-sm font-medium">
               Jenis <span className="text-red-500">*</span>
@@ -170,7 +166,6 @@ export default function AddMenuModal() {
             </select>
           </div>
 
-          {/* Deskripsi */}
           <div>
             <label className="mb-1 block text-sm font-medium">Deskripsi</label>
             <textarea
@@ -180,7 +175,6 @@ export default function AddMenuModal() {
             />
           </div>
 
-          {/* Foto */}
           <div>
             <label className="mb-1 block text-sm font-medium">Foto Menu</label>
             <div className="flex items-center justify-center">
@@ -214,29 +208,14 @@ export default function AddMenuModal() {
             />
           </div>
 
-          {/* Action */}
           <div className="mt-6 flex justify-between border-t pt-4">
-            {/* Batal */}
-            <button
-              type="button"
-              onClick={() => setIsShow(false)}
-              className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-50"
-            >
-              Batal
-            </button>
+            <CancelButton onClick={() => setIsShow(false)} type="button" />
 
-            {/* Simpan */}
-            <button
+            <SubmitButton
               type="submit"
               disabled={isDisabled}
-              className={`rounded-lg px-6 py-2 font-semibold text-white ${
-                isDisabled
-                  ? "cursor-not-allowed bg-gray-300"
-                  : "bg-orange-500 hover:bg-orange-600"
-              }`}
-            >
-              Simpan Menu
-            </button>
+              label="Tambah menu"
+            />
           </div>
         </form>
       </Modal>

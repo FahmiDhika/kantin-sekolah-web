@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
+import { CancelButton, SubmitButton } from "@/components/button";
 
 interface Props {
   menuData: IMenu;
@@ -202,25 +203,13 @@ export default function UpdateMenuModal({ menuData }: Props) {
 
           {/* Action */}
           <div className="mt-6 flex justify-between border-t pt-4">
-            <button
-              type="button"
-              onClick={closeModal}
-              className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-50"
-            >
-              Batal
-            </button>
+            <CancelButton onClick={closeModal} type="button" />
 
-            <button
+            <SubmitButton
               type="submit"
               disabled={isDisabled}
-              className={`rounded-lg px-6 py-2 font-semibold text-white ${
-                isDisabled
-                  ? "cursor-not-allowed bg-gray-300"
-                  : "bg-orange-500 hover:bg-orange-600"
-              }`}
-            >
-              Update Menu
-            </button>
+              label="Update menu"
+            />
           </div>
         </form>
       </Modal>

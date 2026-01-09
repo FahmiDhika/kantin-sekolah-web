@@ -7,6 +7,7 @@ import { getCookie, storeCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { ISiswaLogin } from "@/app/types";
 import { useRouter } from "next/navigation";
+import { CancelButton, SubmitButton } from "@/components/button";
 
 interface Props {
   siswa: ISiswaLogin;
@@ -105,18 +106,9 @@ const ProfileSiswaClient = ({ siswa }: Props) => {
           </button>
         ) : (
           <>
-            <button
-              onClick={() => setEdit(false)}
-              className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-50"
-            >
-              Batal
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="rounded-lg bg-orange-500 px-6 py-2 font-semibold text-white hover:bg-orange-600"
-            >
-              Simpan
-            </button>
+            <CancelButton onClick={() => setEdit(false)} type="button" />
+
+            <SubmitButton onClick={handleSubmit} label="Simpan" />
           </>
         )}
       </div>

@@ -9,6 +9,7 @@ import { getCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
+import { CancelButton, SubmitButton } from "@/components/button";
 
 interface Props {
   diskonData: IDiskon;
@@ -170,25 +171,13 @@ const UpdateDiskonModal = ({ diskonData }: Props) => {
 
           {/* Action */}
           <div className="mt-6 flex justify-between border-t pt-4">
-            <button
-              type="button"
-              onClick={closeModal}
-              className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-50"
-            >
-              Batal
-            </button>
+            <CancelButton onClick={closeModal} type="button" />
 
-            <button
+            <SubmitButton
               type="submit"
               disabled={isDisabled}
-              className={`rounded-lg px-6 py-2 font-semibold text-white ${
-                isDisabled
-                  ? "cursor-not-allowed bg-gray-300"
-                  : "bg-orange-500 hover:bg-orange-600"
-              }`}
-            >
-              Simpan Perubahan
-            </button>
+              label="Update diskon"
+            />
           </div>
         </form>
       </Modal>

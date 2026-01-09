@@ -9,6 +9,7 @@ import { getCookie } from "@/lib/client-cookie";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
+import { CancelButton, SubmitButton } from "@/components/button";
 
 const AddDiskonModal = () => {
   const [isShow, setIsShow] = useState(false);
@@ -101,7 +102,6 @@ const AddDiskonModal = () => {
 
   return (
     <>
-      {/* Trigger Button */}
       <button
         onClick={openModal}
         className="flex items-center justify-center gap-2 rounded-xl bg-orange-500 px-5 py-3 text-sm font-medium text-white shadow hover:bg-orange-600"
@@ -110,10 +110,8 @@ const AddDiskonModal = () => {
         Tambah Diskon
       </button>
 
-      {/* Modal */}
       <Modal open={isShow} onClose={closeModal} title="Tambah Diskon">
         <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-          {/* Nama Diskon */}
           <div>
             <label className="mb-1 block text-sm font-medium">
               Nama Diskon <span className="text-red-500">*</span>
@@ -128,7 +126,6 @@ const AddDiskonModal = () => {
             />
           </div>
 
-          {/* Persentase */}
           <div>
             <label className="mb-1 block text-sm font-medium">
               Persentase <span className="text-red-500">*</span>
@@ -153,7 +150,6 @@ const AddDiskonModal = () => {
             </div>
           </div>
 
-          {/* Tanggal Awal */}
           <div>
             <label className="mb-1 block text-sm font-medium">
               Tanggal Mulai <span className="text-red-500">*</span>
@@ -168,7 +164,6 @@ const AddDiskonModal = () => {
             />
           </div>
 
-          {/* Tanggal Akhir */}
           <div>
             <label className="mb-1 block text-sm font-medium">
               Tanggal Berakhir <span className="text-red-500">*</span>
@@ -183,29 +178,14 @@ const AddDiskonModal = () => {
             />
           </div>
 
-          {/* Action */}
           <div className="mt-6 flex justify-between border-t pt-4">
-            {/* Batal */}
-            <button
-              type="button"
-              onClick={closeModal}
-              className="rounded-lg border border-red-500 px-4 py-2 text-red-500 hover:bg-red-50"
-            >
-              Batal
-            </button>
+            <CancelButton onClick={closeModal} type="button" />
 
-            {/* Simpan */}
-            <button
+            <SubmitButton
               type="submit"
               disabled={isDisabled}
-              className={`rounded-lg px-6 py-2 font-semibold text-white ${
-                isDisabled
-                  ? "cursor-not-allowed bg-gray-300"
-                  : "bg-orange-500 hover:bg-orange-600"
-              }`}
-            >
-              Simpan Diskon
-            </button>
+              label="Tambah diskon"
+            />
           </div>
         </form>
       </Modal>

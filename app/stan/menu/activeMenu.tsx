@@ -98,19 +98,18 @@ const ActiveMenuModal = ({ menuData }: { menuData: IMenu }) => {
               : "Menu akan kembali tersedia untuk siswa."}
           </p>
 
-          <div className="flex justify-end gap-2 pt-4">
+          <div className="mt-6 flex justify-between border-t pt-4">
             <button
               type="button"
               onClick={() => setIsShow(false)}
-              className="px-4 py-2 text-sm rounded-md border border-gray-300
-                         hover:bg-gray-100"
+              className="px-4 py-2 text-sm rounded-lg border border-gray-300 hover:bg-gray-100"
             >
               Batal
             </button>
 
             <button
               type="submit"
-              className={`px-4 py-2 text-sm rounded-md text-white ${
+              className={`px-4 py-2 text-sm rounded-lg text-white ${
                 menu.is_active
                   ? "bg-red-600 hover:bg-red-700"
                   : "bg-green-600 hover:bg-green-700"
